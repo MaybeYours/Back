@@ -13,8 +13,8 @@ public class PreparedStatementApp2 {
 	public static void main(String[] args) throws IOException, SQLException  {
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		
-		System.out.println("<<ÇĞ»ıÁ¤º¸ µµ¿ì¹Ì>>");
-		System.out.println("ÇĞ»ıÀÌ¸§ ÀÔ·Â>> ");
+		System.out.println("<<í•™ìƒì •ë³´ ë„ìš°ë¯¸>>");
+		System.out.println("í•™ìƒì´ë¦„ ì…ë ¥>> ");
 		String name = in.readLine();
 		
 		Connection con = ConnectionFactory2.getConnection();
@@ -26,15 +26,15 @@ public class PreparedStatementApp2 {
 		
 		ResultSet rs = pstmt.executeQuery();
 		
-		System.out.println("<<°Ë»ö°á°ú Ãâ·Â>>");
+		System.out.println("<<ê²€ìƒ‰ê²°ê³¼ ì¶œë ¥>>");
 		if(rs.next()) {
 			do {
-				System.out.println("ÇĞ¹ø = "+rs.getInt("no")+"ÀÌ¸§ = "+rs.getString("name"));
+				System.out.println("í•™ë²ˆ = "+rs.getInt("no")+"ì´ë¦„ = "+rs.getString("name"));
 			} while (rs.next());
 			
 			
 		}else {
-			System.out.println("Ã£´Â »ç¶÷ÀÌ ¾ø³×?");
+			System.out.println("ì°¾ëŠ” ì‚¬ëŒì´ ì—†ë‹¤.");
 		}
 		ConnectionFactory2.close(con, pstmt, rs);
 	}
