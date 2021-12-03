@@ -11,7 +11,7 @@ import java.sql.SQLException;
 public class PreparedStatementApp2 {
 
 	public static void main(String[] args) throws IOException, SQLException  {
-		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+	BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		
 		System.out.println("<<학생정보 도우미>>");
 		System.out.println("학생이름 입력>> ");
