@@ -14,7 +14,7 @@ public class PreparedStatementApp2 {
 	BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		
 		System.out.println("<<학생정보 도우미>>");
-		System.out.println("학생이름 입력>> ");
+		System.out.println("학생이름 입력>>");
 		String name = in.readLine();
 		
 		Connection con = ConnectionFactory2.getConnection();
