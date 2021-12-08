@@ -4,35 +4,35 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-//´Ù¼öÀÇ ÇàÀ» »ğÀÔÇÏ°Å³ª º¯°æÇÏ°íÀÚ ÇÒ °æ¿ì Batch  ¿µ¿ª¿¡ SQL ¸í·ÉÀ» ÀúÀåÇÏ¿© ÇÑ²¨¹ø¿¡ SQL¸í·ÉÀ» Â÷·Ê´ë·Î Àü´ŞÇÏ¿© ½ÇÇàÇÏ´Â ¹æ¹ı - SQL ¸í·ÉÀÇ ÀÏ°ıÃ³¸®
+//ë‹¤ìˆ˜ì˜ í–‰ì„ ì‚½ì…í•˜ê±°ë‚˜ ë³€ê²½í•˜ê³ ì í•  ê²½ìš° Batch  ì˜ì—­ì— SQL ëª…ë ¹ì„ ì €ì¥í•˜ì—¬ í•œêº¼ë²ˆì— SQLëª…ë ¹ì„ ì°¨ë¡€ëŒ€ë¡œ ì „ë‹¬í•˜ì—¬ ì‹¤í–‰í•˜ëŠ” ë°©ë²• - SQL ëª…ë ¹ì˜ ì¼ê´„ì²˜ë¦¬
 public class AddBatchApp {
 	public static void main(String[] args) throws SQLException{
 		Connection con = ConnectionFactory2.getConnection();
 		
 		String sql ="insert into student values(? ,? ,? ,? ,?)";
 		PreparedStatement pstmt = con.prepareStatement(sql);
-		
+	
 		pstmt.setInt(1, 7000);
-		pstmt.setString(2, "È«°æ·¡");
+		pstmt.setString(2, "í™ê²½ë˜");
 		pstmt.setString(3, "010-2222-2222");
-		pstmt.setString(4, "¼­¿ï½Ã µµºÀ±¸");
+		pstmt.setString(4, "ì„œìš¸ì‹œ ë„ë´‰êµ¬");
 		pstmt.setString(5, "1996-05-07");
 		
-		//PreparedStatement.addBatch() : PreparedStatement ÀÎ½ºÅÏ½º¿¡ ÀúÀåµÈ SQL¸í·ÉÀ» ÀÏ°ıÃ³¸® ¿µ¿ª¿¡ Ãß°¡ÇÏ´Â ¸Ş¼Òµå 
+		//PreparedStatement.addBatch() : PreparedStatement ì¸ìŠ¤í„´ìŠ¤ì— ì €ì¥ëœ SQLëª…ë ¹ì„ ì¼ê´„ì²˜ë¦¬ ì˜ì—­ì— ì¶”ê°€í•˜ëŠ” ë©”ì†Œë“œ 
 		pstmt.addBatch();
 		
 		
 		pstmt.setInt(1, 8000);
-		pstmt.setString(2, "·ÎºóÈÊ");
+		pstmt.setString(2, "ë¡œë¹ˆí›—");
 		pstmt.setString(3, "010-3333-3333");
-		pstmt.setString(4, "¼­¿ï½Ã °ü¾Ç±¸");
+		pstmt.setString(4, "ì„œìš¸ì‹œ ê´€ì•…êµ¬");
 		pstmt.setString(5, "1999-12-07");
 		pstmt.addBatch();
 		
-		//PreparedStatement.executeBatch : ÀÏ°ıÃ³¸® ¿µ¿ª¿¡ Ãß°¡µÈ ¸ğµç SQL ¸í·ÉÀ» Á¢¼ÓµÈ DBMS ¼­¹ö¿¡ Àü´ŞÇÏ¿© ½ÇÇàÇÏ´Â ¸Ş¼Òµå -int[] À» ¹İÈ¯ÇÑ´Ù.
+		//PreparedStatement.executeBatch : ì¼ê´„ì²˜ë¦¬ ì˜ì—­ì— ì¶”ê°€ëœ ëª¨ë“  SQL ëª…ë ¹ì„ ì ‘ì†ëœ DBMS ì„œë²„ì— ì „ë‹¬í•˜ì—¬ ì‹¤í–‰í•˜ëŠ” ë©”ì†Œë“œ -int[] ì„ ë°˜í™˜í•œë‹¤.
 		int[] rows = pstmt.executeBatch();
 	
-		System.out.println("[°á°ú]"+rows.length+"¸íÀÇ ÇĞ»ıÀúº¸¸¦ ÀúÀåÇÏ¿´½À´Ï´Ù.");
+		System.out.println("[ê²°ê³¼]"+rows.length+"ëª…ì˜ í•™ìƒì €ë³´ë¥¼ ì €ì¥í•˜ì˜€ìŠµë‹ˆë‹¤.");
 		
 		ConnectionFactory2.close(con, pstmt);
 	}
