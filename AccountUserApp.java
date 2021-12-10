@@ -2,36 +2,36 @@ package xyz.itwill.thread;
 
 public class AccountUserApp {
 	public static void main(String[] args) {
-		Account account=new Account(10000);//ÀºÇà°èÁÂ »ý¼º - ÀÜ¾× : 10000
-		System.out.println("ÀÜ¾× = "+account.getBalance()+"¿ø");
-		System.out.println("==============================================================");		
+		Account account=new Account(10000);//ì€í–‰ê³„ì¢Œ ìƒì„± - ìž”ì•¡ : 10000
+		System.out.println("ìž”ì•¡ = "+account.getBalance()+"ì›");
+		System.out.println("=============================================================");		
 		AccountUser[] users=new AccountUser[3];
-		users[0]=new AccountUser(account, "È«±æµ¿");
-		users[1]=new AccountUser(account, "ÀÓ²©Á¤");
-		users[2]=new AccountUser(account, "Àü¿ìÄ¡");
+		users[0]=new AccountUser(account, "í™ê¸¸ë™");
+		users[1]=new AccountUser(account, "ìž„êº½ì •");
+		users[2]=new AccountUser(account, "ì „ìš°ì¹˜");
 
 		for(AccountUser user:users) {
-			//´ÜÀÏ ½º·¹µå¸¦ ÀÌ¿ëÇÏ¿© ¸ðµç »ç¿ëÀÚÀÇ ÀÔ±Ý Ã³¸®
-			// => ¹è¿­ ¿ä¼Ò¿¡ ÀúÀåµÈ ¼ø¼­´ë·Î ¼øÂ÷ÀûÀ¸·Î ÀÔ±Ý Ã³¸®
+			//ë‹¨ì¼ ìŠ¤ë ˆë“œë¥¼ ì´ìš©í•˜ì—¬ ëª¨ë“  ì‚¬ìš©ìžì˜ ìž…ê¸ˆ ì²˜ë¦¬
+			// => ë°°ì—´ ìš”ì†Œì— ì €ìž¥ëœ ìˆœì„œëŒ€ë¡œ ìˆœì°¨ì ìœ¼ë¡œ ìž…ê¸ˆ ì²˜ë¦¬
 			//user.getAccount().deposit(user.getUserName(), 5000);
 			
-			//´ÙÁß ½º·¹µå¸¦ ÀÌ¿ëÇÏ¿© ¸ðµç »ç¿ëÀÚÀÇ ÀÔ±Ý(Ãâ±Ý) Ã³¸®
-			// => ¼­·Î ´Ù¸¥ ½º·¹µå¸¦ ÀÌ¿ëÇÏ¿© ºñ¼øÂ÷ÀûÀ¸·Î ÀÔ±Ý Ã³¸®
+			//ë‹¤ì¤‘ ìŠ¤ë ˆë“œë¥¼ ì´ìš©í•˜ì—¬ ëª¨ë“  ì‚¬ìš©ìžì˜ ìž…ê¸ˆ(ì¶œê¸ˆ) ì²˜ë¦¬
+			// => ì„œë¡œ ë‹¤ë¥¸ ìŠ¤ë ˆë“œë¥¼ ì´ìš©í•˜ì—¬ ë¹„ìˆœì°¨ì ìœ¼ë¡œ ìž…ê¸ˆ ì²˜ë¦¬
 			
-			//¹®Á¦Á¡)´ÙÁß ½º·¹µå°¡ °øÀ¯ µ¥ÀÌÅ¸¸¦ Ã³¸®ÇÏ´Â ¸Þ¼Òµå¸¦ È£ÃâÇÒ °æ¿ì ºñÁ¤»óÀûÀÎ °á°ú ¹ß»ý
-			// => ÀÔ±Ý(Ãâ±Ý) ¸Þ¼Òµå¸¦ È£ÃâÇÑ °æ¿ì ÀºÇà°èÁÂÀÇ ÀÜ¾×(°øÀ¯ µ¥ÀÌÅ¸) Ã³¸®¿¡ ¹®Á¦ ¹ß»ý
-			//ÇØ°á¹ý)´ÙÁß ½º·¹µåÀÇ °øÀ¯ µ¥ÀÌÅ¸ Ã³¸®¿¡ ¹®Á¦Á¡Àº ½º·¹µå µ¿±âÈ­ »ç¿ëÇÏ¿© ÇØ°á 
+			//ë¬¸ì œì )ë‹¤ì¤‘ ìŠ¤ë ˆë“œê°€ ê³µìœ  ë°ì´íƒ€ë¥¼ ì²˜ë¦¬í•˜ëŠ” ë©”ì†Œë“œë¥¼ í˜¸ì¶œí•  ê²½ìš° ë¹„ì •ìƒì ì¸ ê²°ê³¼ ë°œìƒ
+			// => ìž…ê¸ˆ(ì¶œê¸ˆ) ë©”ì†Œë“œë¥¼ í˜¸ì¶œí•œ ê²½ìš° ì€í–‰ê³„ì¢Œì˜ ìž”ì•¡(ê³µìœ  ë°ì´íƒ€) ì²˜ë¦¬ì— ë¬¸ì œ ë°œìƒ
+			//í•´ê²°ë²•)ë‹¤ì¤‘ ìŠ¤ë ˆë“œì˜ ê³µìœ  ë°ì´íƒ€ ì²˜ë¦¬ì— ë¬¸ì œì ì€ ìŠ¤ë ˆë“œ ë™ê¸°í™” ì‚¬ìš©í•˜ì—¬ í•´ê²° 
 			
-			//½º·¹µå µ¿±âÈ­(Thread Synchronize) : ´ÙÁß ½º·¹µå Áß¿¡¼­ °øÀ¯µ¥ÀÌÅ¸¸¦ Ã³¸®ÇÏ´Â ¸Þ¼Òµå¸¦ 
-			//°¡Àå ¸ÕÀú È£ÃâÇÑ ½º·¹µå°¡ ¸Þ¼ÒµåÀÇ ¸í·ÉÀ» ¸ðµÎ ½ÇÇàÇÏ±â Àü±îÁö ´Ù¸¥ ½º·¹µå¿¡ ÀÇÇØ 
-			//È£ÃâµÇÁö ¾Êµµ·Ï ½º·¹µå¸¦ ÀÏ½ÃÀûÀ¸·Î ÁßÁö(´ë±â»óÅÂ - Thread Lock)ÇÏ´Â ±â´É
+			//ìŠ¤ë ˆë“œ ë™ê¸°í™”(Thread Synchronize) : ë‹¤ì¤‘ ìŠ¤ë ˆë“œ ì¤‘ì—ì„œ ê³µìœ ë°ì´íƒ€ë¥¼ ì²˜ë¦¬í•˜ëŠ” ë©”ì†Œë“œë¥¼ 
+			//ê°€ìž¥ ë¨¼ì € í˜¸ì¶œí•œ ìŠ¤ë ˆë“œê°€ ë©”ì†Œë“œì˜ ëª…ë ¹ì„ ëª¨ë‘ ì‹¤í–‰í•˜ê¸° ì „ê¹Œì§€ ë‹¤ë¥¸ ìŠ¤ë ˆë“œì— ì˜í•´ 
+			//í˜¸ì¶œë˜ì§€ ì•Šë„ë¡ ìŠ¤ë ˆë“œë¥¼ ì¼ì‹œì ìœ¼ë¡œ ì¤‘ì§€(ëŒ€ê¸°ìƒíƒœ - Thread Lock)í•˜ëŠ” ê¸°ëŠ¥
 			
-			//½º·¹µå µ¿±âÈ­ Ã³¸® ¹æ¹ý
-			//1.°øÀ¯ µ¥ÀÌÅ¸¸¦ Ã³¸®ÇÏ´Â ¸Þ¼Òµå¸¦ µ¿±âÈ­ ¸Þ¼Òµå·Î ¼±¾ð
-			// => ¸Þ¼Òµå ÀÛ¼º½Ã synchronized Å°¿öµå¸¦ »ç¿ëÇÏ¿© µ¿±âÈ­ ¸Þ¼Òµå·Î ¼±¾ð
-			//2.µ¿±âÈ­ ¿µ¿ª¿¡¼­ °øÀ¯ µ¥ÀÌÅ¸¸¦ Ã³¸®ÇÏ´Â ¸Þ¼Òµå¸¦ È£Ãâ
-			// => synchronized Å°¿öµå·Î ÀÛ¼ºµÈ µ¿±âÈ­ ¿µ¿ª¿¡¼­ ¸Þ¼Òµå È£Ãâ
-			user.start();//»õ·Î¿î ½º·¹µå¸¦ »ý¼ºÇÏ¿© run() ¸Þ¼Òµå¿¡¼­ ÀÔ±Ý(Ãâ±Ý) Ã³¸®
+			//ìŠ¤ë ˆë“œ ë™ê¸°í™” ì²˜ë¦¬ ë°©ë²•
+			//1.ê³µìœ  ë°ì´íƒ€ë¥¼ ì²˜ë¦¬í•˜ëŠ” ë©”ì†Œë“œë¥¼ ë™ê¸°í™” ë©”ì†Œë“œë¡œ ì„ ì–¸
+			// => ë©”ì†Œë“œ ìž‘ì„±ì‹œ synchronized í‚¤ì›Œë“œë¥¼ ì‚¬ìš©í•˜ì—¬ ë™ê¸°í™” ë©”ì†Œë“œë¡œ ì„ ì–¸
+			//2.ë™ê¸°í™” ì˜ì—­ì—ì„œ ê³µìœ  ë°ì´íƒ€ë¥¼ ì²˜ë¦¬í•˜ëŠ” ë©”ì†Œë“œë¥¼ í˜¸ì¶œ
+			// => synchronized í‚¤ì›Œë“œë¡œ ìž‘ì„±ëœ ë™ê¸°í™” ì˜ì—­ì—ì„œ ë©”ì†Œë“œ í˜¸ì¶œ
+			user.start();//ìƒˆë¡œìš´ ìŠ¤ë ˆë“œë¥¼ ìƒì„±í•˜ì—¬ run() ë©”ì†Œë“œì—ì„œ ìž…ê¸ˆ(ì¶œê¸ˆ) ì²˜ë¦¬
 		}
 		
 	}
