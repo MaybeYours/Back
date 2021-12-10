@@ -11,7 +11,7 @@ public class RamenProgram {
 			new Thread(ramenCook,"D").start();
 		
 			
-		} catch (Exception e) {
+		} catch(Exception e) {
 			e.printStackTrace();
 		}
 
@@ -32,7 +32,7 @@ class RamenCook implements Runnable {
 		while (ramenCount > 0) {
 			synchronized (this) {
 				ramenCount--;
-				System.out.println(Thread.currentThread().getName() + ";" + ramenCount + "°³ ³²À½");
+				System.out.println(Thread.currentThread().getName() + ";" + ramenCount + "Â°Â³ Â³Â²Ã€Â½");
 			}
 			for (int i = 0; i < burners.length; i++) {
 				if (!burners[i].equals("_"))
@@ -41,7 +41,7 @@ class RamenCook implements Runnable {
 				synchronized (this) {
 					burners[i] = Thread.currentThread().getName();
 					System.out.println("                       " + Thread.currentThread().getName() + ":  [" + (i + 1)
-							+ "] ¹ø ¹ö³Ê ON");
+							+ "] Â¹Ã¸ Â¹Ã¶Â³ÃŠ ON");
 					showBurners();
 				}
 				try {
@@ -52,7 +52,7 @@ class RamenCook implements Runnable {
 				synchronized (this) {
 					burners[i] = "_";
 					System.out.println("                       " + Thread.currentThread().getName() + ":  [" + (i + 1)
-							+ "] ¹ø ¹ö³Ê OFF");
+							+ "] Â¹Ã¸ Â¹Ã¶Â³ÃŠ OFF");
 					showBurners();
 				}
 				break;
