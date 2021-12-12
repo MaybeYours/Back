@@ -4,7 +4,7 @@ public class AccountUserApp {
 	public static void main(String[] args) {
 		Account account=new Account(10000);//은행계좌 생성 - 잔액 : 10000
 		System.out.println("잔액 = "+account.getBalance()+"원");
-		System.out.println("=============================================================");		
+		System.out.println("============================================================");		
 		AccountUser[] users=new AccountUser[3];
 		users[0]=new AccountUser(account, "홍길동");
 		users[1]=new AccountUser(account, "임꺽정");
