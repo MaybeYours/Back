@@ -17,25 +17,23 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-//Ã¤ÆÃ Å¬¶óÀÌ¾ğÆ® ÇÁ·Î±×·¥ - Swing
-// => ¼­¹ö¿¡¼­ º¸³»¿Â ¸Ş¼¼Áö¸¦ Àü´Ş¹Ş¾Æ ÄÄÆÛ³ÍÆ® Ãâ·Â - ¹İº¹ Ã³¸®
-// => ÄÄÆÛ³ÍÆ®·Î ¸Ş¼¼Áö¸¦ ÀÔ·Â¹Ş¾Æ ¼­¹ö Àü´Ş - ÀÌº¥Æ® ÇÚµé·¯ ¸Ş¼Òµå
+
 public class ChatClientApp extends JFrame {
 	private static final long serialVersionUID = 1L;
 
-	private JTextField field;//ÀÔ·Â ÄÄÆÛ³ÍÆ®
-	private JTextArea area;//Ãâ·Â ÄÄÆÛ³ÍÆ®
+	private JTextField field;//ì…ë ¥ ì»´í¼ë„ŒíŠ¸
+	private JTextArea area;//ì¶œë ¥ ì»´í¼ë„ŒíŠ¸
 	
-	//¼­¹öÀÇ ¼ÒÄÏ°ú ¿¬°áµÉ Socket ÀÎ½ºÅÏ½º¸¦ ÀúÀåÇÏ±â À§ÇÑ ÇÊµå
+	//ì„œë²„ì˜ ì†Œì¼“ê³¼ ì—°ê²°ë  Socket ì¸ìŠ¤í„´ìŠ¤ë¥¼ ì €ì¥í•˜ê¸° ìœ„í•œ í•„ë“œ
 	private Socket socket;
 	
-	//¼­¹ö¿¡¼­ º¸³»¿Â ¸Ş¼¼Áö¸¦ Àü´Ş¹ŞÀ» ÀÔ·Â½ºÆ®¸²À» ÀúÀåÇÏ±â À§ÇÑ ÇÊµå
+	//ì„œë²„ì—ì„œ ë³´ë‚´ì˜¨ ë©”ì„¸ì§€ë¥¼ ì „ë‹¬ë°›ì„ ì…ë ¥ìŠ¤íŠ¸ë¦¼ì„ ì €ì¥í•˜ê¸° ìœ„í•œ í•„ë“œ
 	private BufferedReader in;
 	
-	//¼­¹ö¿¡°Ô ¸Ş¼¼Áö¸¦ Àü´ŞÇÒ Ãâ·Â½ºÆ®¸²À» ÀúÀåÇÏ±â À§ÇÑ ÇÊµå
+	//ì„œë²„ì—ê²Œ ë©”ì„¸ì§€ë¥¼ ì „ë‹¬í•  ì¶œë ¥ìŠ¤íŠ¸ë¦¼ì„ ì €ì¥í•˜ê¸° ìœ„í•œ í•„ë“œ
 	private PrintWriter out;
 	
-	//´ëÈ­¸íÀ» ÀúÀåÇÏ±â À§ÇÑ ÇÊµå
+	//ëŒ€í™”ëª…ì„ ì €ì¥í•˜ê¸° ìœ„í•œ í•„ë“œ
 	private String aliasName;
 	
 	public ChatClientApp(String title) {
@@ -49,24 +47,24 @@ public class ChatClientApp extends JFrame {
 		getContentPane().add(pane, BorderLayout.CENTER);
 		getContentPane().add(field, BorderLayout.SOUTH);
 		
-		field.setFont(new Font("±¼¸²Ã¼", Font.BOLD, 20));
-		area.setFont(new Font("±¼¸²Ã¼", Font.BOLD, 20));
+		field.setFont(new Font("êµ´ë¦¼ì²´", Font.BOLD, 20));
+		area.setFont(new Font("êµ´ë¦¼ì²´", Font.BOLD, 20));
 		area.setFocusable(false);
 		
-		//ÀÍ¸íÀÇ ³»ºÎ Å¬·¡½º·Î ÀÎ½ºÅÏ½º¸¦ »ç¿ëÇÏ¿© ÄÄÆÛ³ÍÆ®ÀÇ ÀÌº¥Æ® ÇÚµé·¯ µî·Ï
-		//ÀÍ¸íÀÇ ³»ºÎ Å¬·¡½º(Anonymous Inner Class) : Ãß»óÅ¬·¡½º ¶Ç´Â ÀÎÅÍÆäÀÌ½º¸¦ »ó¼Ó¹ŞÀº
-		//ÀÌ¸§ÀÌ ¾ø´Â ³»ºÎ Å¬·¡½º - Ãß»ó¸Ş¼Òµå¸¦ Á÷Á¢ ¿À¹ö¶óÀÌµå ¼±¾ğÇÏ¿© ÀÎ½ºÅÏ½º »ı¼º
-		// => ÇÏ³ªÀÇ ÀÎ½ºÅÏ½º¸¦ »ı¼ºÇÏ¿© ÇÁ·Î±×·¥À» ÀÛ¼ºÇÒ °æ¿ì »ç¿ë
+		//ìµëª…ì˜ ë‚´ë¶€ í´ë˜ìŠ¤ë¡œ ì¸ìŠ¤í„´ìŠ¤ë¥¼ ì‚¬ìš©í•˜ì—¬ ì»´í¼ë„ŒíŠ¸ì˜ ì´ë²¤íŠ¸ í•¸ë“¤ëŸ¬ ë“±ë¡
+		//ìµëª…ì˜ ë‚´ë¶€ í´ë˜ìŠ¤(Anonymous Inner Class) : ì¶”ìƒí´ë˜ìŠ¤ ë˜ëŠ” ì¸í„°í˜ì´ìŠ¤ë¥¼ ìƒì†ë°›ì€
+		//ì´ë¦„ì´ ì—†ëŠ” ë‚´ë¶€ í´ë˜ìŠ¤ - ì¶”ìƒë©”ì†Œë“œë¥¼ ì§ì ‘ ì˜¤ë²„ë¼ì´ë“œ ì„ ì–¸í•˜ì—¬ ì¸ìŠ¤í„´ìŠ¤ ìƒì„±
+		// => í•˜ë‚˜ì˜ ì¸ìŠ¤í„´ìŠ¤ë¥¼ ìƒì„±í•˜ì—¬ í”„ë¡œê·¸ë¨ì„ ì‘ì„±í•  ê²½ìš° ì‚¬ìš©
 		field.addActionListener(new ActionListener() {
-			//ÀÌº¥Æ® ÇÚµé·¯ ¸Ş¼Òµå 
-			// => JTextField ÄÄÆÛ³ÍÆ®¿¡¼­ ÀÔ·ÂµÈ ¸Ş¼¼Áö¸¦ ¾ò¾î¿Í ¼­¹ö¿¡ Àü´ŞÇÏ´Â ¸í·É ÀÛ¼º
+			//ì´ë²¤íŠ¸ í•¸ë“¤ëŸ¬ ë©”ì†Œë“œ 
+			// => JTextField ì»´í¼ë„ŒíŠ¸ì—ì„œ ì…ë ¥ëœ ë©”ì„¸ì§€ë¥¼ ì–»ì–´ì™€ ì„œë²„ì— ì „ë‹¬í•˜ëŠ” ëª…ë ¹ ì‘ì„±
 			public void actionPerformed(ActionEvent e) {
-				//JTextField ÄÄÆÛ³ÍÆ®¿¡¼­ ÀÔ·ÂµÈ ¸Ş¼¼Áö¸¦ ¹İÈ¯¹Ş¾Æ ÀúÀå
+				//JTextField ì»´í¼ë„ŒíŠ¸ì—ì„œ ì…ë ¥ëœ ë©”ì„¸ì§€ë¥¼ ë°˜í™˜ë°›ì•„ ì €ì¥
 				String message=field.getText();
 				
-				if(!message.equals("")) {//ÀÔ·Â ¸Ş¼¼Áö°¡ Á¸ÀçÇÒ °æ¿ì
-					out.println(message);//¼­¹ö¿¡ ¸Ş¼¼Áö Àü´Ş
-					field.setText("");//JTextField ÄÄÆÛ³ÍÆ® ÀÔ·Â ÃÊ±âÈ­
+				if(!message.equals("")) {//ì…ë ¥ ë©”ì„¸ì§€ê°€ ì¡´ì¬í•  ê²½ìš°
+					out.println(message);//ì„œë²„ì— ë©”ì„¸ì§€ ì „ë‹¬
+					field.setText("");//JTextField ì»´í¼ë„ŒíŠ¸ ì…ë ¥ ì´ˆê¸°í™”
 				}
 			}
 		}); 
@@ -76,55 +74,55 @@ public class ChatClientApp extends JFrame {
 		setVisible(true);
 		
 		try {
-			socket=new Socket("172.30.1.42", 6000);//¼­¹ö Á¢¼Ó
+			socket=new Socket("172.30.1.42", 6000);//ì„œë²„ ì ‘ì†
 			
-			//Socket ÀÎ½ºÅÏ½ºÀÇ ÀÔ·Â½ºÆ®¸²À» ¹İÈ¯¹Ş¾Æ ¹®ÀÚ¿­À» Àü´Ş¹ŞÀ» ¼ö ÀÖ´Â 
-			//ÀÔ·Â½ºÆ®¸²À¸·Î È®ÀåÇÏ¿© ÇÊµå¿¡ ÀúÀå
+			//Socket ì¸ìŠ¤í„´ìŠ¤ì˜ ì…ë ¥ìŠ¤íŠ¸ë¦¼ì„ ë°˜í™˜ë°›ì•„ ë¬¸ìì—´ì„ ì „ë‹¬ë°›ì„ ìˆ˜ ìˆëŠ” 
+			//ì…ë ¥ìŠ¤íŠ¸ë¦¼ìœ¼ë¡œ í™•ì¥í•˜ì—¬ í•„ë“œì— ì €ì¥
 			in=new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			
-			//Socket ÀÎ½ºÅÏ½ºÀÇ Ãâ·Â½ºÆ®¸²À» ¹İÈ¯¹Ş¾Æ ¹®ÀÚ¿­À» Àü´ŞÇÒ ¼ö ÀÖ´Â 
-			//Ãâ·Â½ºÆ®¸²À¸·Î È®ÀåÇÏ¿© ÇÊµå¿¡ ÀúÀå
+			//Socket ì¸ìŠ¤í„´ìŠ¤ì˜ ì¶œë ¥ìŠ¤íŠ¸ë¦¼ì„ ë°˜í™˜ë°›ì•„ ë¬¸ìì—´ì„ ì „ë‹¬í•  ìˆ˜ ìˆëŠ” 
+			//ì¶œë ¥ìŠ¤íŠ¸ë¦¼ìœ¼ë¡œ í™•ì¥í•˜ì—¬ í•„ë“œì— ì €ì¥
 			out=new PrintWriter(socket.getOutputStream(), true);
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(this, "¼­¹ö¿¡ Á¢¼ÓÇÒ ¼ö ¾ø½À´Ï´Ù."
-					,"Á¢¼Ó¿À·ù",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "ì„œë²„ì— ì ‘ì†í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤."
+					,"ì ‘ì†ì˜¤ë¥˜",JOptionPane.ERROR_MESSAGE);
 			System.exit(0);
 		}
 		
-		//´ëÈ­¸íÀ» ÀÔ·Â¹Ş¾Æ ÇÊµå¿¡ ÀúÀå - Á¤»óÀûÀÎ ´ëÈ­¸íÀÌ ÀÔ·ÂµÇµµ·Ï ¹İº¹ Ã³¸®
+		//ëŒ€í™”ëª…ì„ ì…ë ¥ë°›ì•„ í•„ë“œì— ì €ì¥ - ì •ìƒì ì¸ ëŒ€í™”ëª…ì´ ì…ë ¥ë˜ë„ë¡ ë°˜ë³µ ì²˜ë¦¬
 		while(true) {
-			//ÀÔ·Â ´ÙÀÌ¾ó·Î±×¸¦ »ç¿ëÇÏ¿© ´ëÈ­¸íÀ» ÀÔ·Â¹Ş¾Æ ÀúÀå
-			aliasName=JOptionPane.showInputDialog(this,"´ëÈ­¸íÀ» ÀÔ·ÂÇØ ÁÖ¼¼¿ä."
-				,"´ëÈ­¸í ÀÔ·Â",JOptionPane.QUESTION_MESSAGE);
+			//ì…ë ¥ ë‹¤ì´ì–¼ë¡œê·¸ë¥¼ ì‚¬ìš©í•˜ì—¬ ëŒ€í™”ëª…ì„ ì…ë ¥ë°›ì•„ ì €ì¥
+			aliasName=JOptionPane.showInputDialog(this,"ëŒ€í™”ëª…ì„ ì…ë ¥í•´ ì£¼ì„¸ìš”."
+				,"ëŒ€í™”ëª… ì…ë ¥",JOptionPane.QUESTION_MESSAGE);
 		
-			//Á¤»óÀûÀÎ ´ëÈ­¸íÀÌ ÀÔ·ÂµÈ °æ¿ì ¹İº¹¹® Á¾·á
+			//ì •ìƒì ì¸ ëŒ€í™”ëª…ì´ ì…ë ¥ëœ ê²½ìš° ë°˜ë³µë¬¸ ì¢…ë£Œ
 			if(aliasName!=null && !aliasName.equals("")) break;
 			
-			JOptionPane.showMessageDialog(this, "´ëÈ­¸íÀ» ¹İµå½Ã ÀÔ·ÂÇØ ÁÖ¼¼¿ä."
-					,"ÀÔ·Â¿À·ù",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "ëŒ€í™”ëª…ì„ ë°˜ë“œì‹œ ì…ë ¥í•´ ì£¼ì„¸ìš”."
+					,"ì…ë ¥ì˜¤ë¥˜",JOptionPane.ERROR_MESSAGE);
 		}
 		
-		//ÀÔ·Â¹ŞÀº ´ëÈ­¸íÀ» ¼­¹ö¿¡ Àü´Ş
+		//ì…ë ¥ë°›ì€ ëŒ€í™”ëª…ì„ ì„œë²„ì— ì „ë‹¬
 		out.println(aliasName);
 		
-		//¼­¹ö¿¡¼­ º¸³»¿Â ¸Ş¼¼Áö¸¦ Àü´Ş¹Ş¾Æ JTextArea ÄÄÆÛ³ÍÆ®¿¡ Ãß°¡ÇÏ¿© Ãâ·Â - ¹İº¹ Ã³¸®
+		//ì„œë²„ì—ì„œ ë³´ë‚´ì˜¨ ë©”ì„¸ì§€ë¥¼ ì „ë‹¬ë°›ì•„ JTextArea ì»´í¼ë„ŒíŠ¸ì— ì¶”ê°€í•˜ì—¬ ì¶œë ¥ - ë°˜ë³µ ì²˜ë¦¬
 		while(true) {
 			try {
 				area.append(in.readLine()+"\n");
 				
-				//JTextArea ÄÄÆÛ³ÍÆ®ÀÇ ½ºÅ©·ÑÀ» ¸Ç ¾Æ·¡·Î ÀÌµ¿
-				//JTextArea.setCaretPosition(int position) : JTextArea ÄÄÆÛ³ÍÆ®ÀÇ ½ºÅ©·Ñ À§Ä¡¸¦ º¯°æÇÏ´Â ¸Ş¼Òµå
+				//JTextArea ì»´í¼ë„ŒíŠ¸ì˜ ìŠ¤í¬ë¡¤ì„ ë§¨ ì•„ë˜ë¡œ ì´ë™
+				//JTextArea.setCaretPosition(int position) : JTextArea ì»´í¼ë„ŒíŠ¸ì˜ ìŠ¤í¬ë¡¤ ìœ„ì¹˜ë¥¼ ë³€ê²½í•˜ëŠ” ë©”ì†Œë“œ
 				area.setCaretPosition(area.getText().length());
 			} catch (IOException e) {
-				JOptionPane.showMessageDialog(this, "¼­¹ö¿ÍÀÇ ¿¬°áÀÌ ²÷¾îÁ³½À´Ï´Ù."
-						,"Á¢¼Ó¿À·ù",JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "ì„œë²„ì™€ì˜ ì—°ê²°ì´ ëŠì–´ì¡ŒìŠµë‹ˆë‹¤."
+						,"ì ‘ì†ì˜¤ë¥˜",JOptionPane.ERROR_MESSAGE);
 				System.exit(0);
 			}
 		}
 	}
 	
 	public static void main(String[] args) {
-		new ChatClientApp("Ã¤ÆÃ ÇÁ·Î±×·¥");
+		new ChatClientApp("ì±„íŒ… í”„ë¡œê·¸ë¨");
 	}
 }
 
