@@ -84,7 +84,7 @@ public class ChatClientApp extends JFrame {
 			//출력스트림으로 확장하여 필드에 저장
 			out=new PrintWriter(socket.getOutputStream(), true);
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(this, "서버에 접속할 수 없습니다."
+			JOptionPane.showMessageDialog(this,"서버에 접속할 수 없습니다."
 					,"접속오류",JOptionPane.ERROR_MESSAGE);
 			System.exit(0);
 		}
