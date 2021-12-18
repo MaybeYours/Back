@@ -27,7 +27,7 @@ public class ChatClientApp extends JFrame {
 	//서버의 소켓과 연결될 Socket 인스턴스를 저장하기 위한 필드
 	private Socket socket;
 	
-	//서버에서 보내온 메세지를 전달받을 입력스트림을 저장하기 위한 필드
+	//서버에서 보내온 메세지를 전달받을 입력스트림을 저장하기위한 필드
 	private BufferedReader in;
 	
 	//서버에게 메세지를 전달할 출력스트림을 저장하기 위한 필드
