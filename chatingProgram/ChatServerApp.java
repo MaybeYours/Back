@@ -9,7 +9,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-//채팅 서버 프로그램 - 다중 스레드
+//채팅 서버 프로그램 -다중 스레드
 // => 클라이언트가 보내온 메세지를 전달받아 접속된 모든 클라이언트에게 전달하는 기능 구현
 // => 클라이언트와 연결된 서버의 소켓은 새로운 스레드를 생성하여 독립적으로 동작되도록 구현
 public class ChatServerApp {
