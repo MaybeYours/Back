@@ -30,7 +30,7 @@ public class ChatClientApp extends JFrame {
 	//서버에서 보내온 메세지를 전달받을 입력스트림을 저장하기위한 필드
 	private BufferedReader in;
 	
-	//서버에게 메세지를 전달할 출력스트림을 저장하기 위한 필드
+	//서버에게 메세지를 전달할출력스트림을 저장하기 위한 필드
 	private PrintWriter out;
 	
 	//대화명을 저장하기 위한 필드
