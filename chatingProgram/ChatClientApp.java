@@ -21,10 +21,10 @@ import javax.swing.JTextField;
 public class ChatClientApp extends JFrame {
 	private static final long serialVersionUID = 1L;
 
-	private JTextField field;//입력 컴퍼넌트
+	private JTextField field;//입력 컴퍼
 	private JTextArea area;//출력 컴퍼넌트
 	
-	//서버의 소켓과 연결될 Socket 인스턴스를 저장하기 위한 필드
+	//서버의// 소켓과 연결될 Socket 인스턴스를 저장하기 위한 필드
 	private Socket socket;
 	
 	//서버에서 보내온 메세지를 전달받을 입력스트림을 저장하기위한 필드
