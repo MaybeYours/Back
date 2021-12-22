@@ -64,7 +64,7 @@ public class ChatClientApp extends JFrame {
 				
 				if(!message.equals("")) {//입력 메세지가 존재할 경우
 					out.println(message);//서버에 메세지 전달
-					field.setText("");//JTextField 컴퍼넌트 입력 초기화
+					field.setText("");//JTextField 컴퍼넌트 입력 초기화 
 				}
 			}
 		}); 
