@@ -19,7 +19,7 @@ import javax.swing.JTextField;
 
 
 public class ChatClientApp extends JFrame {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L; 
 
 	private JTextField field;//입력 컴퍼
 	private JTextArea area;//출력 컴퍼넌트
