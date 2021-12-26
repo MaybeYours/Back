@@ -40,7 +40,7 @@ public class ChatClientApp extends JFrame {
 		super(title);
 		
 		field=new JTextField();
-		area=new JTextArea();
+		area=new JTextArea() ;
 		
 		JScrollPane pane=new JScrollPane(area);
 		
