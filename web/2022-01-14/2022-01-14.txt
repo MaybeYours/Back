@@ -1,0 +1,23 @@
+2021-01-14
+
+loginform 에
+비로그인 사용자일 경우 부분
+colspan ? 
+
+null이 출력되는 것을 막기 위해 "" 를 쓴다.
+
+내장객체 - 기본적으로  8개
+page
+config
+out
+request/
+response/
+session/
+application
+page
+exception
+
+join_jsp
+가입을 누르면 post방식으로 요청
+
+명시적객체형변환 - 부모를 자식으로 바꾸는 것.
