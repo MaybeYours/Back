@@ -1,20 +1,19 @@
 package xyz.itwill.dto;
-
 /*
-�̸�        ��?       ����             
+이름        널?       유형             
 --------- -------- -------------- 
-NUM       NOT NULL NUMBER(4)      - �۹�ȣ
-ID                 VARCHAR2(20)   - �ۼ���(���̵�)
-WRITER             VARCHAR2(50)   - �ۼ���(�̸�)
-SUBJECT            VARCHAR2(500)  - ����   
-REG_DATE           DATE           - �ۼ���¥ 
-READCOUNT          NUMBER(4)      - ��ȸ��
-REF                NUMBER(4)      - �Խñ� �׷�       
-RE_STEP            NUMBER(4)      - �Խñ� �׷��� �ۼ���
-RE_LEVEL           NUMBER(4)      - �Խñ� ����
-CONTENT            VARCHAR2(4000) - ���� 
-IP                 VARCHAR2(20)   - Ŭ���̾�Ʈ IP �ּ�
-STATUS             NUMBER(1)      - ���� : 0(������),1(�Ϲݱ�),2(��б�)  
+NUM       NOT NULL NUMBER(4)      - 글번호
+ID                 VARCHAR2(20)   - 작성자(아이디)
+WRITER             VARCHAR2(50)   - 작성자(이름)
+SUBJECT            VARCHAR2(500)  - 제목   
+REG_DATE           DATE           - 작성날짜 
+READCOUNT          NUMBER(4)      - 조회수
+REF                NUMBER(4)      - 게시글 그룹       
+RE_STEP            NUMBER(4)      - 게시글 그룹의 글순서
+RE_LEVEL           NUMBER(4)      - 게시글 깊이
+CONTENT            VARCHAR2(4000) - 내용 
+IP                 VARCHAR2(20)   - 클라이언트 IP 주소
+STATUS             NUMBER(1)      - 상태 : 0(삭제글),1(일반글),2(비밀글)  
 */
 
 public class BoardDTO {
