@@ -3,7 +3,7 @@ package xyz.itwill.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.SQLException;   
 
 import xyz.itwill.dto.MemberDTO;
 
@@ -22,7 +22,7 @@ public class MemberDAO extends JdbcDAO {
 		return _dao;
 	}
 	
-	//È¸¿øÁ¤º¸¸¦ Àü´Ş¹Ş¾Æ MEMBER Å×ÀÌºí¿¡ »ğÀÔÇÏ¿© ÀúÀåÇÏ°í »ğÀÔÇàÀÇ °¹¼ö¸¦ ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
+	//íšŒì›ì •ë³´ë¥¼ ì „ë‹¬ë°›ì•„ MEMBER í…Œì´ë¸”ì— ì‚½ì…í•˜ì—¬ ì €ì¥í•˜ê³  ì‚½ì…í–‰ì˜ ê°¯ìˆ˜ë¥¼ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
 	public int insertMember(MemberDTO member) {
 		Connection con=null;
 		PreparedStatement pstmt=null;
@@ -43,14 +43,14 @@ public class MemberDAO extends JdbcDAO {
 			
 			rows=pstmt.executeUpdate();
 		} catch (SQLException e) {
-			System.out.println("[¿¡·¯]insertMember ¸Ş¼ÒµåÀÇ SQL ¿À·ù = "+e.getMessage());
+			System.out.println("[ì—ëŸ¬]insertMember ë©”ì†Œë“œì˜ SQL ì˜¤ë¥˜ = "+e.getMessage());
 		} finally {
 			close(con, pstmt);
 		}
 		return rows;
 	}
 	
-	//¾ÆÀÌµğ¸¦ Àü´Ş¹Ş¾Æ MEMBER Å×ÀÌºí¿¡ ÀúÀåµÈ ÇØ´ç ¾ÆÀÌµğÀÇ È¸¿øÁ¤º¸¸¦ °Ë»öÇÏ¿© ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
+	//ì•„ì´ë””ë¥¼ ì „ë‹¬ë°›ì•„ MEMBER í…Œì´ë¸”ì— ì €ì¥ëœ í•´ë‹¹ ì•„ì´ë””ì˜ íšŒì›ì •ë³´ë¥¼ ê²€ìƒ‰í•˜ì—¬ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
 	public MemberDTO selectIdMember(String id) {
 		Connection con=null;
 		PreparedStatement pstmt=null;
@@ -80,7 +80,7 @@ public class MemberDAO extends JdbcDAO {
 				member.setStatus(rs.getInt("status"));
 			}
 		} catch (SQLException e) {
-			System.out.println("[¿¡·¯]selectIdMember ¸Ş¼ÒµåÀÇ SQL ¿À·ù = "+e.getMessage());
+			System.out.println("[ì—ëŸ¬]selectIdMember ë©”ì†Œë“œì˜ SQL ì˜¤ë¥˜ = "+e.getMessage());
 		} finally {
 			close(con, pstmt, rs);
 		}
