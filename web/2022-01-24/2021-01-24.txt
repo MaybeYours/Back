@@ -1,0 +1,23 @@
+board_write => board_list 에서도 실행되지만 , board_detail에서도 실행
+list (새글 / 답글 을 입력받기 위함) 
+	=> list에서 요청할경우( 새글일경우) 전달값이 없다.
+	=> detail. 에서 요청할 경우 (답글일경우) ref,restep,relevel,pagenum을 부모		한테 받이 받는다.
+	전달값을 저장하기 위해서 변수 를 선언, (초기값)
+	각각 0 / 0 / 0 /1 
+	부모에게 전달값이 온 경우 - 답글이므로 , 값을 받아서 저장한다.
+
+	hidden은 
+
+	초기값이 hidden 으로 전달된다/
+board_wirte_action => 새글 을 저장 / 답글을 저장 하기위해 필요한 정보
+
+num- 글번호 / subject - 내용 / ref - 댓글, 글 그룹핑 / re_step 새글이 위로 올라가도록 / re_level 답글의 답글에 답글 같은 경우 앞에 공백처리
+
+답글일 경우 ref의 컬럼값이 같은것중에서 re_step중에서 write에서 가져온reStep
+값보다  큰 값을 1+ 해준다. 그리고 reStep 값과 reLevel 값을 1 씩 증가시켜준다.
+그리고 
+
+
+ 게시판 페이지번호 출력하는것 (블럭화 처리해서 ) / 모두 다 출력하는게아님
+동적 SQL 이 뭔지
+detail 페이지 링크 걸어주는것. ( form 태그를 이용해서 받아서 action 값만 바꿔줌)
