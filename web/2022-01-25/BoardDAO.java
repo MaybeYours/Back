@@ -3,7 +3,7 @@ package xyz.itwill.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.SQLException;  
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,8 +24,8 @@ public class BoardDAO extends JdbcDAO {
 		return _dao;
 	}
 	
-	//BOARD Å×ÀÌºí¿¡ ÀúÀåµÈ ÀüÃ¼ °Ô½Ã±ÛÀÇ °¹¼ö¸¦ °Ë»öÇÏ¿© ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-	// => °Ë»ö ±â´ÉÀ» Á¦°øÇÏ±â À§ÇØ ¸Å°³º¯¼ö¿¡ °Ë»ö °ü·Ã °ªÀ» Àü´Ş¹Ş¾Æ ÀúÀå
+	//BOARD í…Œì´ë¸”ì— ì €ì¥ëœ ì „ì²´ ê²Œì‹œê¸€ì˜ ê°¯ìˆ˜ë¥¼ ê²€ìƒ‰í•˜ì—¬ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+	// => ê²€ìƒ‰ ê¸°ëŠ¥ì„ ì œê³µí•˜ê¸° ìœ„í•´ ë§¤ê°œë³€ìˆ˜ì— ê²€ìƒ‰ ê´€ë ¨ ê°’ì„ ì „ë‹¬ë°›ì•„ ì €ì¥
 	//public int selectBoardCount() {
 	public int selectBoardCount(String search, String keyword) {
 		Connection con=null;
@@ -35,13 +35,13 @@ public class BoardDAO extends JdbcDAO {
 		try {
 			con=getConnection();
 			
-			//¸Ş¼Òµå ¸Å°³º¯¼ö¿¡ ÀúÀåµÈ °ª¿¡ µû¶ó ´Ù¸¥ SQL ¸í·ÉÀ» Àü´ŞÇÏ¿© ½ÇÇàµÇµµ·Ï ¼³Á¤
-			// => µ¿Àû SQL(Dynamic SQL)
-			if(keyword.equals("")) {//°Ë»ö ±â´ÉÀ» »ç¿ëÇÏÁö ¾ÊÀ» °æ¿ì
+			//ë©”ì†Œë“œ ë§¤ê°œë³€ìˆ˜ì— ì €ì¥ëœ ê°’ì— ë”°ë¼ ë‹¤ë¥¸ SQL ëª…ë ¹ì„ ì „ë‹¬í•˜ì—¬ ì‹¤í–‰ë˜ë„ë¡ ì„¤ì •
+			// => ë™ì  SQL(Dynamic SQL)
+			if(keyword.equals("")) {//ê²€ìƒ‰ ê¸°ëŠ¥ì„ ì‚¬ìš©í•˜ì§€ ì•Šì„ ê²½ìš°
 				String sql="select count(*) from board";
 				pstmt=con.prepareStatement(sql);
-			} else {//°Ë»ö ±â´ÉÀ» »ç¿ëÇÑ °æ¿ì
-				//ºñ±³ÄÃ·³(search)¿¡ °Ë»ö´Ü¾î(keyword)°¡ Æ÷ÇÔµÈ °Ô½Ã±ÛÀÇ °¹¼ö °Ë»ö
+			} else {//ê²€ìƒ‰ ê¸°ëŠ¥ì„ ì‚¬ìš©í•œ ê²½ìš°
+				//ë¹„êµì»¬ëŸ¼(search)ì— ê²€ìƒ‰ë‹¨ì–´(keyword)ê°€ í¬í•¨ëœ ê²Œì‹œê¸€ì˜ ê°¯ìˆ˜ ê²€ìƒ‰
 				String sql="select count(*) from board where "+search+" like '%'||?||'%' and status!=0";
 				pstmt=con.prepareStatement(sql);
 				pstmt.setString(1, keyword);
@@ -53,14 +53,14 @@ public class BoardDAO extends JdbcDAO {
 				count=rs.getInt(1);
 			}
 		} catch (SQLException e) {
-			System.out.println("[¿¡·¯]selectBoardCount ¸Ş¼ÒµåÀÇ SQL ¿À·ù = "+e.getMessage());
+			System.out.println("[ì—ëŸ¬]selectBoardCount ë©”ì†Œë“œì˜ SQL ì˜¤ë¥˜ = "+e.getMessage());
 		} finally {
 			close(con, pstmt, rs);
 		}
 		return count;
 	}
 
-	//½ÃÀÛ Çà¹øÈ£¿Í Á¾·á Çà¹øÈ£¸¦ Àü´Ş¹Ş¾Æ BOARD Å×ÀÌºí¿¡ ÀúÀåµÈ ÇØ´ç Çà¹üÀ§ÀÇ °Ô½Ã±ÛÀ» °Ë»öÇÏ¿© ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
+	//ì‹œì‘ í–‰ë²ˆí˜¸ì™€ ì¢…ë£Œ í–‰ë²ˆí˜¸ë¥¼ ì „ë‹¬ë°›ì•„ BOARD í…Œì´ë¸”ì— ì €ì¥ëœ í•´ë‹¹ í–‰ë²”ìœ„ì˜ ê²Œì‹œê¸€ì„ ê²€ìƒ‰í•˜ì—¬ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
 	//public List<BoardDTO> selectBoardList(int startRow, int endRow) {
 	public List<BoardDTO> selectBoardList(int startRow, int endRow, String search, String keyword) {
 		Connection con=null;
@@ -70,13 +70,13 @@ public class BoardDAO extends JdbcDAO {
 		try {
 			con=getConnection();
 			
-			if(keyword.equals("")) {//°Ë»ö±â´ÉÀ» »ç¿ëÇÏÁö ¾ÊÀº °æ¿ì 
+			if(keyword.equals("")) {//ê²€ìƒ‰ê¸°ëŠ¥ì„ ì‚¬ìš©í•˜ì§€ ì•Šì€ ê²½ìš° 
 				String sql="select * from (select rownum rn,temp.* from "
 					+ "(select * from board order by ref desc,re_step) temp) where rn between ? and ?";
 				pstmt=con.prepareStatement(sql);
 				pstmt.setInt(1, startRow);
 				pstmt.setInt(2, endRow);
-			} else {//°Ë»ö±â´ÉÀ» »ç¿ëÇÑ °æ¿ì
+			} else {//ê²€ìƒ‰ê¸°ëŠ¥ì„ ì‚¬ìš©í•œ ê²½ìš°
 				String sql="select * from (select rownum rn,temp.* from "
 					+ "(select * from board where "+search+" like '%'||?||'%' and status!=0 "
 					+ "order by ref desc,re_step) temp) where rn between ? and ?";
@@ -105,14 +105,14 @@ public class BoardDAO extends JdbcDAO {
 				boardList.add(board);
 			}
 		} catch (SQLException e) {
-			System.out.println("[¿¡·¯]selectBoardList ¸Ş¼ÒµåÀÇ SQL ¿À·ù = "+e.getMessage());
+			System.out.println("[ì—ëŸ¬]selectBoardList ë©”ì†Œë“œì˜ SQL ì˜¤ë¥˜ = "+e.getMessage());
 		} finally {
 			close(con, pstmt, rs);
 		}
 		return boardList;
 	}
 	
-	//BOARD_SEQ ½ÃÄı½ºÀÇ ´ÙÀ½°ªÀ» °Ë»öÇÏ¿© ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
+	//BOARD_SEQ ì‹œí€¸ìŠ¤ì˜ ë‹¤ìŒê°’ì„ ê²€ìƒ‰í•˜ì—¬ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
 	public int selectNextNum() {
 		Connection con=null;
 		PreparedStatement pstmt=null;
@@ -130,14 +130,14 @@ public class BoardDAO extends JdbcDAO {
 				nextNum=rs.getInt(1);
 			}
 		} catch (SQLException e) {
-			System.out.println("[¿¡·¯]selectNextNum ¸Ş¼ÒµåÀÇ SQL ¿À·ù = "+e.getMessage());
+			System.out.println("[ì—ëŸ¬]selectNextNum ë©”ì†Œë“œì˜ SQL ì˜¤ë¥˜ = "+e.getMessage());
 		} finally {
 			close(con, pstmt, rs);
 		}
 		return nextNum;
 	}
 	
-	//BOARD Å×ÀÌºí¿¡ ÀúÀåµÈ °Ô½Ã±Û Áß Á¶°Ç¿¡ ¸Â´Â °Ô½Ã±ÛÀÇ RE_STEP ÄÃ·³°ªÀ» º¯°æÇÏ°í º¯°æÇàÀÇ °¹¼ö¸¦ ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå  
+	//BOARD í…Œì´ë¸”ì— ì €ì¥ëœ ê²Œì‹œê¸€ ì¤‘ ì¡°ê±´ì— ë§ëŠ” ê²Œì‹œê¸€ì˜ RE_STEP ì»¬ëŸ¼ê°’ì„ ë³€ê²½í•˜ê³  ë³€ê²½í–‰ì˜ ê°¯ìˆ˜ë¥¼ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ  
 	public int updateReStep(int ref, int reStep) {
 		Connection con=null;
 		PreparedStatement pstmt=null;
@@ -152,14 +152,14 @@ public class BoardDAO extends JdbcDAO {
 			
 			rows=pstmt.executeUpdate();
 		} catch (SQLException e) {
-			System.out.println("[¿¡·¯]updateReStep ¸Ş¼ÒµåÀÇ SQL ¿À·ù = "+e.getMessage());
+			System.out.println("[ì—ëŸ¬]updateReStep ë©”ì†Œë“œì˜ SQL ì˜¤ë¥˜ = "+e.getMessage());
 		} finally {
 			close(con, pstmt);
 		}
 		return rows;
 	}
 	
-	//°Ô½Ã±ÛÀ» Àü´Ş¹Ş¾Æ BOARD Å×ÀÌºí¿¡ »ğÀÔÇÏ¿© ÀúÀåÇÏ°í »ğÀÔÇàÀÇ °¹¼ö¸¦ ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå  
+	//ê²Œì‹œê¸€ì„ ì „ë‹¬ë°›ì•„ BOARD í…Œì´ë¸”ì— ì‚½ì…í•˜ì—¬ ì €ì¥í•˜ê³  ì‚½ì…í–‰ì˜ ê°¯ìˆ˜ë¥¼ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ  
 	public int insertBoard(BoardDTO board) {
 		Connection con=null;
 		PreparedStatement pstmt=null;
@@ -182,14 +182,14 @@ public class BoardDAO extends JdbcDAO {
 			
 			rows=pstmt.executeUpdate();
 		} catch (SQLException e) {
-			System.out.println("[¿¡·¯]insertBoard ¸Ş¼ÒµåÀÇ SQL ¿À·ù = "+e.getMessage());
+			System.out.println("[ì—ëŸ¬]insertBoard ë©”ì†Œë“œì˜ SQL ì˜¤ë¥˜ = "+e.getMessage());
 		} finally {
 			close(con, pstmt);
 		}
 		return rows;
 	}
 
-	//±Û¹øÈ£¸¦ Àü´Ş¹Ş¾Æ BOARD Å×ÀÌºí¿¡ ÀúÀåµÈ ÇØ´ç ±Û¹øÈ£ÀÇ °Ô½Ã±ÛÀ» °Ë»öÇÏ¿© ¹İÈ¯ÇÏ´Â
+	//ê¸€ë²ˆí˜¸ë¥¼ ì „ë‹¬ë°›ì•„ BOARD í…Œì´ë¸”ì— ì €ì¥ëœ í•´ë‹¹ ê¸€ë²ˆí˜¸ì˜ ê²Œì‹œê¸€ì„ ê²€ìƒ‰í•˜ì—¬ ë°˜í™˜í•˜ëŠ”
 	public BoardDTO selectNumBoard(int num) {
 		Connection con=null;
 		PreparedStatement pstmt=null;
@@ -220,15 +220,15 @@ public class BoardDAO extends JdbcDAO {
 				board.setStatus(rs.getInt("status"));
 			}
 		} catch (SQLException e) {
-			System.out.println("[¿¡·¯]selectNumBoard ¸Ş¼ÒµåÀÇ SQL ¿À·ù = "+e.getMessage());
+			System.out.println("[ì—ëŸ¬]selectNumBoard ë©”ì†Œë“œì˜ SQL ì˜¤ë¥˜ = "+e.getMessage());
 		} finally {
 			close(con, pstmt, rs);
 		}
 		return board;
 	}
 	
-	//±Û¹øÈ£¸¦ Àü´Ş¹Ş¾Æ BOARD Å×ÀÌºí¿¡ ÀúÀåµÈ ÇØ´ç ±Û¹øÈ£ÀÇ °Ô½Ã±Û Á¶È¸¼ö¸¦ º¯°æ(Áõ°¡)
-	//ÇÏ°í º¯°æÇàÀÇ °¹¼ö¸¦ ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
+	//ê¸€ë²ˆí˜¸ë¥¼ ì „ë‹¬ë°›ì•„ BOARD í…Œì´ë¸”ì— ì €ì¥ëœ í•´ë‹¹ ê¸€ë²ˆí˜¸ì˜ ê²Œì‹œê¸€ ì¡°íšŒìˆ˜ë¥¼ ë³€ê²½(ì¦ê°€)
+	//í•˜ê³  ë³€ê²½í–‰ì˜ ê°¯ìˆ˜ë¥¼ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
 	public int updateReadcount(int num) {
 		Connection con=null;
 		PreparedStatement pstmt=null;
@@ -242,15 +242,15 @@ public class BoardDAO extends JdbcDAO {
 			
 			rows=pstmt.executeUpdate();
 		} catch (SQLException e) {
-			System.out.println("[¿¡·¯]updateReadcount ¸Ş¼ÒµåÀÇ SQL ¿À·ù = "+e.getMessage());
+			System.out.println("[ì—ëŸ¬]updateReadcount ë©”ì†Œë“œì˜ SQL ì˜¤ë¥˜ = "+e.getMessage());
 		} finally {
 			close(con, pstmt);
 		}
 		return rows;
 	}
 	
-	//±Û¹øÈ£¸¦ Àü´Ş¹Ş¾Æ BOARD Å×ÀÌºí¿¡ ÀúÀåµÈ ÇØ´ç ±Û¹øÈ£ÀÇ °Ô½Ã±ÛÀ» »èÁ¦ Ã³¸®ÇÏ°í
-	//ÇÏ°í »èÁ¦Çà(º¯°æÇà)ÀÇ °¹¼ö¸¦ ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
+	//ê¸€ë²ˆí˜¸ë¥¼ ì „ë‹¬ë°›ì•„ BOARD í…Œì´ë¸”ì— ì €ì¥ëœ í•´ë‹¹ ê¸€ë²ˆí˜¸ì˜ ê²Œì‹œê¸€ì„ ì‚­ì œ ì²˜ë¦¬í•˜ê³ 
+	//í•˜ê³  ì‚­ì œí–‰(ë³€ê²½í–‰)ì˜ ê°¯ìˆ˜ë¥¼ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
 	public int deleteBoard(int num) {
 		Connection con=null;
 		PreparedStatement pstmt=null;
@@ -264,14 +264,14 @@ public class BoardDAO extends JdbcDAO {
 			
 			rows=pstmt.executeUpdate();
 		} catch (SQLException e) {
-			System.out.println("[¿¡·¯]deleteBoard ¸Ş¼ÒµåÀÇ SQL ¿À·ù = "+e.getMessage());
+			System.out.println("[ì—ëŸ¬]deleteBoard ë©”ì†Œë“œì˜ SQL ì˜¤ë¥˜ = "+e.getMessage());
 		} finally {
 			close(con, pstmt);
 		}
 		return rows;
 	}
 	
-	//°Ô½Ã±ÛÀ» Àü´Ş¹Ş¾Æ BOARD Å×ÀÌºí¿¡ ÀúÀåµÈ °Ô½Ã±ÛÀ» º¯°æÇÏ°í º¯°æÇàÀÇ °¹¼ö¸¦ ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
+	//ê²Œì‹œê¸€ì„ ì „ë‹¬ë°›ì•„ BOARD í…Œì´ë¸”ì— ì €ì¥ëœ ê²Œì‹œê¸€ì„ ë³€ê²½í•˜ê³  ë³€ê²½í–‰ì˜ ê°¯ìˆ˜ë¥¼ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
 	public int updateBoard(BoardDTO board) {
 		Connection con=null;
 		PreparedStatement pstmt=null;
@@ -288,7 +288,7 @@ public class BoardDAO extends JdbcDAO {
 			
 			rows=pstmt.executeUpdate();
 		} catch (SQLException e) {
-			System.out.println("[¿¡·¯]updateBoard ¸Ş¼ÒµåÀÇ SQL ¿À·ù = "+e.getMessage());
+			System.out.println("[ì—ëŸ¬]updateBoard ë©”ì†Œë“œì˜ SQL ì˜¤ë¥˜ = "+e.getMessage());
 		} finally {
 			close(con, pstmt);
 		}
