@@ -13,7 +13,7 @@ import xyz.itwill.dto.BoardDTO;
 public class BoardDAO extends JdbcDAO {
 	private static BoardDAO _dao;
 	
-	private BoardDAO() {
+	private BoardDAO() {    
 		// TODO Auto-generated constructor stub
 	}
 	
