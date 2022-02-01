@@ -1,15 +1,15 @@
 package xyz.itwill.dto;
 
 /*
-�̸�       ��?       ����            
+이름       널?       유형            
 -------- -------- ------------- 
-NUM      NOT NULL NUMBER(4)     - ��ǰ��ȣ     
-CATEGORY          VARCHAR2(20)  - ī�װ���  
-NAME              VARCHAR2(50)  - ��ǰ��
-IMAGE             VARCHAR2(30)  - ��ǰ��ǥ�̹��� 
-DETAIL            VARCHAR2(300) - ��ǰ������ 
-QTY               NUMBER(8)     - ��ǰ����  
-PRICE             NUMBER(8)     - ��ǰ����
+NUM      NOT NULL NUMBER(4)     - 제품번호     
+CATEGORY          VARCHAR2(20)  - 카테고리  
+NAME              VARCHAR2(50)  - 제품명
+IMAGE             VARCHAR2(30)  - 제품대표이미지 
+DETAIL            VARCHAR2(300) - 제품상세정보 
+QTY               NUMBER(8)     - 제품수량  
+PRICE             NUMBER(8)     - 제품가격
 */
 
 public class ProductDTO {
@@ -48,7 +48,7 @@ public class ProductDTO {
 	public void setName(String name) {
 		this.name = name;
 	}
-
+   
 	public String getImage() {
 		return image;
 	}
