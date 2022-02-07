@@ -2,7 +2,7 @@ package xyz.itwill.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.ResultSet;  
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ public class MemberDAO extends JdbcDAO {
 		return _dao;
 	}
 	
-	//È¸¿øÁ¤º¸¸¦ Àü´Ş¹Ş¾Æ MEMBER Å×ÀÌºí¿¡ »ğÀÔÇÏ¿© ÀúÀåÇÏ°í »ğÀÔÇàÀÇ °¹¼ö¸¦ ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
+	//íšŒì›ì •ë³´ë¥¼ ì „ë‹¬ë°›ì•„ MEMBER í…Œì´ë¸”ì— ì‚½ì…í•˜ì—¬ ì €ì¥í•˜ê³  ì‚½ì…í–‰ì˜ ê°¯ìˆ˜ë¥¼ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
 	public int insertMember(MemberDTO member) {
 		Connection con=null;
 		PreparedStatement pstmt=null;
@@ -45,14 +45,14 @@ public class MemberDAO extends JdbcDAO {
 			
 			rows=pstmt.executeUpdate();
 		} catch (SQLException e) {
-			System.out.println("[¿¡·¯]insertMember ¸Ş¼ÒµåÀÇ SQL ¿À·ù = "+e.getMessage());
+			System.out.println("[ì—ëŸ¬]insertMember ë©”ì†Œë“œì˜ SQL ì˜¤ë¥˜ = "+e.getMessage());
 		} finally {
 			close(con, pstmt);
 		}
 		return rows;
 	}
 	
-	//¾ÆÀÌµğ¸¦ Àü´Ş¹Ş¾Æ MEMBER Å×ÀÌºí¿¡ ÀúÀåµÈ ÇØ´ç ¾ÆÀÌµğÀÇ È¸¿øÁ¤º¸¸¦ °Ë»öÇÏ¿© ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
+	//ì•„ì´ë””ë¥¼ ì „ë‹¬ë°›ì•„ MEMBER í…Œì´ë¸”ì— ì €ì¥ëœ í•´ë‹¹ ì•„ì´ë””ì˜ íšŒì›ì •ë³´ë¥¼ ê²€ìƒ‰í•˜ì—¬ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
 	public MemberDTO selectIdMember(String id) {
 		Connection con=null;
 		PreparedStatement pstmt=null;
@@ -82,15 +82,15 @@ public class MemberDAO extends JdbcDAO {
 				member.setStatus(rs.getInt("status"));
 			}
 		} catch (SQLException e) {
-			System.out.println("[¿¡·¯]selectIdMember ¸Ş¼ÒµåÀÇ SQL ¿À·ù = "+e.getMessage());
+			System.out.println("[ì—ëŸ¬]selectIdMember ë©”ì†Œë“œì˜ SQL ì˜¤ë¥˜ = "+e.getMessage());
 		} finally {
 			close(con, pstmt, rs);
 		}
 		return member;
 	}
 	
-	//¾ÆÀÌµğ¸¦ Àü´Ş¹Ş¾Æ MEMBER Å×ÀÌºí¿¡ ÀúÀåµÈ ÇØ´ç ¾ÆÀÌµğÀÇ È¸¿øÁ¤º¸ Áß ¸¶Áö¸· ·Î±×ÀÎ
-	//³¯Â¥¸¦ º¯°æÇÏ°í º¯°æÇàÀÇ °¹¼ö¸¦ ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
+	//ì•„ì´ë””ë¥¼ ì „ë‹¬ë°›ì•„ MEMBER í…Œì´ë¸”ì— ì €ì¥ëœ í•´ë‹¹ ì•„ì´ë””ì˜ íšŒì›ì •ë³´ ì¤‘ ë§ˆì§€ë§‰ ë¡œê·¸ì¸
+	//ë‚ ì§œë¥¼ ë³€ê²½í•˜ê³  ë³€ê²½í–‰ì˜ ê°¯ìˆ˜ë¥¼ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
 	public int updateLastLogin(String id) {
 		Connection con=null;
 		PreparedStatement pstmt=null;
@@ -104,14 +104,14 @@ public class MemberDAO extends JdbcDAO {
 			
 			rows=pstmt.executeUpdate();
 		} catch (SQLException e) {
-			System.out.println("[¿¡·¯]updateLastLogin ¸Ş¼ÒµåÀÇ SQL ¿À·ù = "+e.getMessage());
+			System.out.println("[ì—ëŸ¬]updateLastLogin ë©”ì†Œë“œì˜ SQL ì˜¤ë¥˜ = "+e.getMessage());
 		} finally {
 			close(con, pstmt);
 		}
 		return rows;
 	}
 	
-	//È¸¿øÁ¤º¸¸¦ Àü´Ş¹Ş¾Æ MEMBER Å×ÀÌºí¿¡ ÀúÀåµÈ È¸¿øÁ¤º¸¸¦ º¯°æÇÏ°í º¯°æÇàÀÇ °¹¼ö¸¦ ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
+	//íšŒì›ì •ë³´ë¥¼ ì „ë‹¬ë°›ì•„ MEMBER í…Œì´ë¸”ì— ì €ì¥ëœ íšŒì›ì •ë³´ë¥¼ ë³€ê²½í•˜ê³  ë³€ê²½í–‰ì˜ ê°¯ìˆ˜ë¥¼ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
 	public int updateMember(MemberDTO member) {
 		Connection con=null;
 		PreparedStatement pstmt=null;
@@ -133,14 +133,14 @@ public class MemberDAO extends JdbcDAO {
 			
 			rows=pstmt.executeUpdate();
 		} catch (SQLException e) {
-			System.out.println("[¿¡·¯]updateMember ¸Ş¼ÒµåÀÇ SQL ¿À·ù = "+e.getMessage());
+			System.out.println("[ì—ëŸ¬]updateMember ë©”ì†Œë“œì˜ SQL ì˜¤ë¥˜ = "+e.getMessage());
 		} finally {
 			close(con, pstmt);
 		}
 		return rows;
 	}
 	
-	//¾ÆÀÌµğ¸¦ Àü´Ş¹Ş¾Æ MEMBER Å×ÀÌºí¿¡ ÀúÀåµÈ ÇØ´ç ¾ÆÀÌµğÀÇ È¸¿øÁ¤º¸¸¦ »èÁ¦ÇÏ°í »èÁ¦ÇàÀÇ °¹¼ö¸¦ ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
+	//ì•„ì´ë””ë¥¼ ì „ë‹¬ë°›ì•„ MEMBER í…Œì´ë¸”ì— ì €ì¥ëœ í•´ë‹¹ ì•„ì´ë””ì˜ íšŒì›ì •ë³´ë¥¼ ì‚­ì œí•˜ê³  ì‚­ì œí–‰ì˜ ê°¯ìˆ˜ë¥¼ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
 	public int deleteMember(String id) {
 		Connection con=null;
 		PreparedStatement pstmt=null;
@@ -155,14 +155,14 @@ public class MemberDAO extends JdbcDAO {
 			
 			rows=pstmt.executeUpdate();
 		} catch (SQLException e) {
-			System.out.println("[¿¡·¯]deleteMember ¸Ş¼ÒµåÀÇ SQL ¿À·ù = "+e.getMessage());
+			System.out.println("[ì—ëŸ¬]deleteMember ë©”ì†Œë“œì˜ SQL ì˜¤ë¥˜ = "+e.getMessage());
 		} finally {
 			close(con, pstmt);
 		}
 		return rows;
 	}
 	
-	//MEMBER Å×ÀÌºí¿¡ ÀúÀåµÈ ¸ğµç È¸¿øÁ¤º¸¸¦ °Ë»öÇÏ¿© ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
+	//MEMBER í…Œì´ë¸”ì— ì €ì¥ëœ ëª¨ë“  íšŒì›ì •ë³´ë¥¼ ê²€ìƒ‰í•˜ì—¬ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
 	public List<MemberDTO> selectAllMemberList() {
 		Connection con=null;
 		PreparedStatement pstmt=null;
@@ -192,7 +192,7 @@ public class MemberDAO extends JdbcDAO {
 				memberList.add(member);
 			}
 		} catch (SQLException e) {
-			System.out.println("[¿¡·¯]selectAllMemberList ¸Ş¼ÒµåÀÇ SQL ¿À·ù = "+e.getMessage());
+			System.out.println("[ì—ëŸ¬]selectAllMemberList ë©”ì†Œë“œì˜ SQL ì˜¤ë¥˜ = "+e.getMessage());
 		} finally {
 			close(con, pstmt, rs);
 		}
