@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.itwill.mapper.MyCommentMapper">
+	<!-- cache : SELECT 명령의 검색결과를 Cache 메모리에 저장하여 빠른 검색결과를 제공하는 엘리먼트 -->
+	<!-- => INSERT, UPDATE, DELETE 명령이 실행되면 Cache 메모리에 저장된 검색결과는 자동 초기화 -->
+	<!-- => 검색결과를 저장하는 클래스는 반드시 객체 직렬화 클래스로 선언 -->
+	<!-- <cache/> -->
+
+	<!-- 
+	<insert id="insertComment" parameterType="MyComment1">
+		insert into mycomment values(mycomment_seq.nextval,#{commentId},#{commentContent},sysdate)
+	</insert>
+	-->
+	<insert id="insertComment" parameterType="MyComment1">
+		<!-- selectKey : SELECT 명령의 검색 결과값을 인스턴스의 필드값으로 저장하기 위한 엘리먼트 -->
+		<!-- => insert 엘리먼트의 종속된 하위 엘리먼트 -->
+		<!-- => 자동 증가값 또는 난수값을 검색하여 인스턴스의 필드에 저장 -->
+		<!-- resultType 속성 : SELECT 명령의 검색 결과값을 매핑하여 제공하기 위한 Java 자료형을 속성값으로 설정  -->
+		<!-- keyProperty 속성 : SELECT 명령의 검색 결과값을 저장하기 위한 인스턴스의 필드명을 속성값으로 설정  -->
+		<!-- order 속성 : [BEFORE] 또는 [AFTER] 중 하나를 속성값으로 설정  -->
+		<selectKey resultType="int" keyProperty="commentNo" order="BEFORE">
+			select mycomment_seq.nextval from dual
+		</selectKey>
+		insert into mycomment values(#{commentNo},#{commentId},#{commentContent},sysdate)
+	</insert>
+	
+	<!-- 검색행의 컬럼값이 컬럼명과 같은 이름의 클래스의 필드에 매핑되어 저장 - 자동 매핑 -->
+	<!-- => mybatis 환경설정파일을 setting 엘리먼트에서 설정된 기능에 의해 스네이크 표기법의 
+	컬럼명이 자동으로 카멜 표기법의 컬럼명으로 자동 변경 -->
+	<select id="selectCommentList1" resultType="MyComment1">
+		select * from mycomment order by comment_no desc
+	</select>
+	
+	<!-- 검색행의 컬럼명과 DTO 클래스의 필드명이 모두 다르면 검색행의 컬럼값이 DTO 클래스의 
+	필드에 하나도 저장되지 않아 DTO 인스턴스를 생성하여 제공하지 않고 NULL 제공 -->
+	<!-- 
+	<select id="selectCommentList2" resultType="MyComment2">
+		select * from mycomment order by comment_no desc
+	</select>
+	-->
+	
+	<!-- 검색행의 컬럼명을 클래스의 필드명과 같은 이름의 별칭으로 바꾸어 검색하여 컬럼값이 필드에
+	자동 매핑되어 저장 -->
+	<!-- 
+	<select id="selectCommentList2" resultType="MyComment2">
+		select comment_no no,comment_id id,comment_content content,comment_date "date" 
+			from mycomment order by comment_no desc
+	</select>
+	-->
+	 
+	<!-- resultMap 엘리먼트를 이용하여 검색행의 컬럼값을 클래스의 필드에 매핑되어 저장되도록 설정 --> 
+	<!-- => id 엘리먼트와 result 엘리먼트를 이용하여 매핑 처리 -->
+	<!-- => DTO 클래스의 기본 생성자를 사용하여 인스턴스 생성하고 Setter 메소드를 호출하여 검색행의
+	컬럼값을 전달받아 인스턴스의 필드값으로 변경 --> 
+	<resultMap type="MyComment2" id="myComment2ResultMap">
+		<id column="comment_no" property="no"/>
+		<result column="comment_id" property="id"/>
+		<result column="comment_content" property="content"/>
+		<result column="comment_date" property="date"/>
+	</resultMap>
+	
+	<!-- 
+	<select id="selectCommentList2" resultMap="myComment2ResultMap">
+		select * from mycomment order by comment_no desc
+	</select>
+	-->
+	
+	<!-- 매개변수가 선언된 생성자를 이용하여 DTO 인스턴스를 생성하고 생성자의 필드 초기화 명령을
+	이용하여 검색행의 컬럼값을 필드값으로 저장되도록 매핑 처리하기 위한 정보 제공 -->
+	<resultMap type="MyComment2" id="myComment2ConstructorResultMap">
+		<!-- constructor : 생성자를 이용하여 매칭 처리하기 위한 정보를 제공하는 상위 엘리먼트 -->
+		<!-- => idArg 엘리먼트와 arg 엘리먼트를 하위 엘리먼트로 사용하여 매핑 정보 제공  -->
+		<!-- => 생성자의 매개변수와 하위 엘리먼트의 갯수와 Java 자료형이 반드시 일치해야만 생성자를 이용하여 매핑 처리  -->
+		<constructor>
+			<!-- idArg : 검색행의 컬럼값을 생성자의 매개변수에 전달하여 저장하는 엘리먼트 -->
+			<!-- => PK 제약조건이 부여된 컬럼값을 매핑 처리할 때 사용 -->
+			<!-- column 속성 : 검색행의 컬럼값이 저장된 컬럼명을 속성값으로 설정 -->
+			<!-- javaType 속성 : 검색행의 컬럼값이 저장될 매개변수의 Java 자료형을 속성값으로 설정 -->
+			<idArg column="comment_no" javaType="_int"/>
+			<!-- arg : 검색행의 컬럼값을 생성자의 매개변수에 전달하여 저장하는 엘리먼트 -->
+			<arg column="comment_id" javaType="string"/>
+			<arg column="comment_content" javaType="string"/>
+			<arg column="comment_date" javaType="string"/>
+		</constructor>
+	</resultMap>
+	
+	<select id="selectCommentList2" resultMap="myComment2ConstructorResultMap">
+		select * from mycomment order by comment_no desc
+	</select>
+	
+	<!-- 
+	<select id="selectCommentList3" resultType="MyComment3">
+		select comment_no "no",comment_id "id",user_name "name",comment_content "content"
+			,comment_date "date" from mycomment join myuser on comment_id=user_id 
+			order by comment_no desc
+	</select>
+	-->
+	
+	<resultMap type="MyComment3" id="myComment3ResultMap">
+		<id column="comment_no" property="no"/>	
+		<!-- <result column="comment_id" property="id"/> -->	
+		<result column="user_id" property="id"/>	
+		<result column="user_name" property="name"/>	
+		<result column="comment_content" property="content"/>	
+		<result column="comment_date" property="date"/>	
+	</resultMap>
+	
+	<select id="selectCommentList3" resultMap="myComment3ResultMap">
+		select * from mycomment join myuser on comment_id=user_id order by comment_no desc
+	</select>
+	
+	<select id="selectCommentUserList1" resultType="MyCommentUser1">
+		select * from mycomment join myuser on comment_id=user_id order by comment_no desc
+	</select>
+	
+	<!-- DTO 클래스의 필드가 포함 관계로 작성된 경우 포함 관계의 필드에 인스턴스를 매핑하여
+	저장되도록 resultMap 엘리먼트를 반드시 사용하여 매핑 정보 제공  -->
+	<resultMap type="MyCommentUser2" id="myCommentUser2ResultMap">
+		<!-- association : 1:1 관계의 테이블 조인 검색행의 컬럼값을 포함 관계의 인스턴스로 생성하여
+		DTO 클래스의 필드에 매핑하여 저장하기 위한 엘리먼트  -->
+		<!-- => association 엘리먼트의 하위 엘리먼트(id 엘리먼트와 result 엘리먼트)로 
+		검색행의 컬럼값을 포함 인스턴스 필드에 매핑되어 저장되도록 설정 -->
+		<!-- property 속성 : DTO 클래스에 포함 관계로 설정된 필드명을 속성값으로 설정 -->
+		<!-- javaType 속성 : DTO 클래스에 포함 관계로 설정된 Java 자료형을 속성값으로 설정 -->
+		<association property="comment" javaType="MyComment1">
+			<id column="comment_no" property="commentNo"/>
+			<result column="comment_id" property="commentId"/>
+			<result column="comment_content" property="commentContent"/>
+			<result column="comment_date" property="commentDate"/>
+		</association>
+		<association property="user" javaType="MyUser">
+			<id column="user_id" property="userId"/>
+			<result column="user_name" property="userName"/>
+		</association>
+	</resultMap>
+	
+	<select id="selectCommentUserList2" resultMap="myCommentUser2ResultMap">
+		select * from mycomment join myuser on comment_id=user_id order by comment_no desc
+	</select>
+	
+	<select id="selectComment" parameterType="int" resultType="MyComment1">
+		<!-- 게시글번호를 전달받아 MYCOMMENT 테이블에 저장된 게시글을 검색하는 SELECT 명령 -->
+		select * from mycomment where comment_no=#{commentNo}
+	</select>
+	
+	<select id="selectCommentNoReplyList" parameterType="int" resultType="MyReply">
+		<!-- 게시글번호를 전달받아 MYREPLY 테이블의 댓글목록을 검색하는 SELECT 명령 -->
+		select * from myreply where reply_comment_no=#{replyCommentNo} order by reply_no desc
+	</select>
+	
+	<resultMap type="MyCommentReply" id="myCommentReplyResultMap">
+		<id column="comment_no" property="commentNo"/>
+		<result column="comment_id" property="commentId"/>
+		<result column="comment_content" property="commentContent"/>
+		<result column="comment_date" property="commentDate"/>
+		<!-- collection : 1:N 관계의 테이블 조인에서 다수의 검색결과를 List 인스턴스로
+		생성해 필드에 저장하기 위한 엘리먼트 -->
+		<!-- property 속성 : List 인스턴스를 저장하기 위한 필드명을 속성값으로 설정 -->
+		<!-- ofType 속성 : List 인스턴스의 요소로 저장될 인스턴스의 Java 자료형을 속성값으로 설정 -->
+		<collection property="replies" ofType="MyReply">
+			<id column="reply_no" property="replyNo"/>
+			<result column="reply_id" property="replyId"/>
+			<result column="reply_content" property="replyContent"/>
+			<result column="reply_date" property="replyDate"/>
+			<result column="reply_comment_no" property="replyCommentNo"/>
+		</collection>
+	</resultMap>
+	
+	<!-- 1:N 관계의 조인은 OUTER JOIN를 사용하여 검색 -->
+	<!-- => 댓글이 없는 게시글을 검색하기 위해 LEFT OUTER JOIN 사용 -->
+	<select id="selectCommentReply" parameterType="int" resultMap="myCommentReplyResultMap">
+		select * from mycomment left join myreply on comment_no=reply_comment_no 
+			where comment_no=#{comment_no} order by reply_no desc
+	</select>	
+	
+	<!-- resultMap 엘리먼트의 하위 엘리먼트 선언 순서 -->
+	<!-- => constructor >> id >> result >> association >> collection >> discriminator -->
+	<!-- association 엘리먼트로 매핑 설정을 시작한 경우 내부적으로 모든 매핑 설정을 selectOne() 
+	메소드로 단일행의 검색결과를 제공받아 매핑 처리 -->
+	<!-- 문제점)resultMap 엘리먼트에서 association 엘리먼트로 매핑 설정을 시작한 경우에 collection 
+	엘리먼트를 선언하면 다수행의 검색결과에 대한 매칭 처리 불가능(TooManyResultsException 발생)  -->
+	<!-- 해결법)resultMap 엘리먼트에서 association 엘리먼트가 아닌 다른 엘리먼트로 매핑이 시작되도록 설정 -->
+	<resultMap type="MyCommentReplyUser" id="myCommentReplyUserResultMap">
+		<id column="comment_no" property="commentNo"/>
+		<result column="comment_id" property="commentId"/>
+		<result column="comment_content" property="commentContent"/>
+		<result column="comment_date" property="commentDate"/>
+		<!-- 
+		<association property="comment" javaType="MyComment1">
+			<id column="comment_no" property="commentNo"/>
+			<result column="comment_id" property="commentId"/>
+			<result column="comment_content" property="commentContent"/>
+			<result column="comment_date" property="commentDate"/>
+		</association>
+		 -->
+		<association property="user" javaType="MyUser">
+			<id column="user_id" property="userId"/>
+			<result column="user_name" property="userName"/>
+		</association>
+		<collection property="replies" ofType="MyReplyUser">
+			<association property="reply" javaType="MyReply">
+				<id column="reply_no" property="replyNo"/>
+				<result column="reply_id" property="replyId"/>
+				<result column="reply_content" property="replyContent"/>
+				<result column="reply_date" property="replyDate"/>
+				<result column="reply_comment_no" property="replyCommentNo"/>
+			</association>
+			<association property="user" javaType="MyUser">
+				<id column="reply_user_id" property="userId"/>
+				<result column="reply_user_name" property="userName"/>
+			</association>
+		</collection>
+	</resultMap>
+	
+	<!-- 테이블을 조인하여 검색할 경우 테이블의 컬럼명이 중복되는 것을 방지하기 위해 ColumnAlis 기능을
+	이용하여 컬럼에 별칭을 설정하여 검색하는 것을 권장 -->
+	<!-- => 테이블 조인시 동일한 컬럼명을 가진 경우 두번째 이상의 컬럼명은 자동으로 변경 - 매핑 불가능 -->
+	<select id="selectCommentReplyUser" parameterType="int" resultMap="myCommentReplyUserResultMap">
+		select * from mycomment join myuser on comment_id=user_id left join 
+   			(select myreply.*,user_id reply_user_id,user_name reply_user_name from myreply 
+   			join myuser on reply_id=user_id) on comment_no=reply_comment_no 
+   			where comment_no=#{commentNo} order by reply_no desc  
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+

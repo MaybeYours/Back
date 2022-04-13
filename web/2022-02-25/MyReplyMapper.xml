@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.itwill.mapper.MyReplyMapper">
+	<insert id="insertReply" parameterType="MyReply">
+		<selectKey resultType="int" keyProperty="replyNo" order="BEFORE">
+			select myreply_seq.nextval from dual
+		</selectKey>
+		insert into myreply values(#{replyNo},#{replyId},#{replyContent},sysdate,#{replyCommentNo})
+	</insert>
+	
+	<select id="selectReplyList" resultType="MyReply">
+		select * from myreply order by reply_no desc
+	</select>
+	
+	<!-- 엘리먼트에 등록된 SQL 명령에서는 관계연산자(> 또는 <)를 사용하면 엘리먼트 기호로 인식되어 에러 발생 -->
+	<!-- => 엘리먼트에 등록된 SQL 명령에 XML 문서에서 사용할 수 없는 문자가 존재할 경우 엔티티 레퍼런스로
+	변경하거나 CDATA 세션에 SQL 명령을 등록하여 사용 -->
+	<select id="selectReplyCountList" resultType="MyReply">
+		<!-- select rownum,reply.* from (select * from myreply order by reply_no desc) reply where rownum<=5 -->
+		<!-- select rownum,reply.* from (select * from myreply order by reply_no desc) reply where rownum&lt;=5 -->
+		<![CDATA[
+			select rownum,reply.* from (select * from myreply order by reply_no desc) reply where rownum<=5
+		]]>
+	</select>
+	
+	<!--  
+	<resultMap type="MyReplyUser" id="myReplyUserResultMap">
+		<association property="reply" javaType="MyReply">
+			<id column="reply_no" property="replyNo"/>
+			<result column="reply_id" property="replyId"/>
+			<result column="reply_content" property="replyContent"/>
+			<result column="reply_date" property="replyDate"/>
+			<result column="reply_comment_no" property="replyCommentNo"/>
+		</association>
+		<association property="user" javaType="MyUser">
+			<id column="user_id" property="userId"/>
+			<result column="user_name" property="userName"/>
+		</association>
+	</resultMap>
+	
+	<select id="selectReplyUserList" resultMap="myReplyUserResultMap">
+		select * from myreply join myuser on reply_id=user_id order by reply_no desc
+	</select>
+	-->
+	
+	<resultMap type="MyReply" id="myReplyResulyMap">
+		<id column="reply_no" property="replyNo"/>
+		<result column="reply_id" property="replyId"/>
+		<result column="reply_content" property="replyContent"/>
+		<result column="reply_date" property="replyDate"/>
+		<result column="reply_comment_no" property="replyCommentNo"/>
+	</resultMap>
+	
+	<resultMap type="MyReplyUser" id="myReplyUserResultMap">
+		<!-- resultMap 속성 : resultMap 엘리먼트를 구분하기 위한 식별자를 속성값으로 설정 -->
+		<!-- => 기존 매핑정보를 제공받아 검색행의 컬럼값을 포함 인스턴스 필드에 매핑 처리 - resultMap 엘리먼트의 재사용 -->
+		<association property="reply" javaType="MyReply" resultMap="myReplyResulyMap"/>
+		<!-- column 속성 : select 속성값으로 등록된 엘리먼트의 SELECT 명령에서 사용될
+		컬럼값을 전달하기 위한 컬럼명을 속성값으로 설정 -->
+		<!-- select 속성 : SELECT 명령이 등록된 select 엘리먼트의 식별자를 속성값으로 설정 -->
+		<!-- => select 엘리먼트에 등록된 SELECT 명령을 실행하여 제공된 결과값(DTO 인스턴스)를 
+		포함 인스턴스의 필드에 매핑하여 저장 -->
+		<!-- => column 속성값으로 제공된 컬럼값을 SELECT 명령에 전달하여 조건에 맞는 행만 검색 -->
+		<association property="user" column="reply_id" select="selectMyUser"/>
+	</resultMap>
+	
+	<select id="selectMyUser" parameterType="string" resultType="MyUser">
+		select * from myuser where user_id=#{userId}
+	</select>
+	
+	<select id="selectReplyUserList" resultMap="myReplyUserResultMap">
+		select * from myreply join myuser on reply_id=user_id order by reply_no desc
+	</select>
+</mapper>
+
+

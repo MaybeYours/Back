@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace 속성값과 같은 이름으로 Interface 맵퍼를 작성해야 맵퍼 바인딩 설정 가능 -->
+<mapper namespace="xyz.itwill.mapper.MyMemberMapper">
+	<!-- SQL 명령이 등록된 엘리먼트 식별자와 같은 이름으로 Interface 맵퍼에 추상메소드 작성 -->
+	<!-- => DAO 클래스에서 추상메소드를 호출한 경우 같은 이름의 엘리먼트의 SQL 명령을 제공받아 사용 -->
+	<!-- 일반적으로 parameterType 속성값은 추상메소드의 매개변수로 설정하고 resultType 속성값은 
+	추상메소드의 반환형으로 설정 -->
+	<!-- => 맵퍼 바인딩한 경우 엘리먼트의 parameterType 속성은 생략 가능  -->
+	<insert id="insertMember" parameterType="MyMember">
+		insert into mymember values(#{id},#{name},#{phone},#{email})
+	</insert>
+	
+	<update id="updateMember" parameterType="MyMember">
+		update mymember set name=#{name},phone=#{phone},email=#{email} where id=#{id}
+	</update>
+	
+	<delete id="deleteMember" parameterType="string">
+		delete from mymember where id=#{id}
+	</delete>
+	
+	<select id="selectMember" parameterType="string" resultType="MyMember">
+		select * from mymember where id=#{id}
+	</select>
+	
+	<select id="selectMemberList" resultType="MyMember">
+		select * from mymember order by id 
+	</select>
+</mapper>

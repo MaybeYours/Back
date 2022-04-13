@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!-- SqlSessionFactory 인스턴스를 생성하기 위해 필요한 정보를 제공하는 환경설정파일 -->
+<configuration>
+	<!-- properties : property 엘리먼트를 설정하기 위한 상위 엘리먼트 -->
+	<!-- resource 속성 : Properties 파일의 경로를 속성값으로 설정 -->
+	<!-- => property 엘리먼트 대신 Properties 파일에서 제공되는 이름과 값을 이용 -->
+	<properties resource="db.properties">
+		<!-- property : XML 환경설정파일에 필요한 값을 제공하기 위한 엘리먼트 -->
+		<!-- => 다른 엘리먼트에서 ${이름} 형식으로 표현하여 설정값을 제공받아 사용 -->
+		<!-- => 다수의 엘리먼트에서 공통적으로 사용되는 값을 좀더 쉽게 이용하거나 변경하기 위해 선언 -->
+		<property name="oracleDriver" value="oracle.jdbc.driver.OracleDriver"/>
+	</properties>
+	
+	<!-- settings : setting 엘리먼트를 설정하기 위한 상위 엘리먼트 -->
+	<settings>
+		<!-- setting : mybatis 실행시 필요한 값을 제공하기 위한 엘리먼트 -->
+		<!-- => mybatis 실행에 필요한 값은 기본값으로 제공되므로 기본값이 아닌 값을 
+		사용할 경우에만 setting 엘리먼트 선언 -->
+		<setting name="callSettersOnNulls" value="true"/>
+		<setting name="jdbcTypeForNull" value="NULL"/>
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
+	</settings>
+	
+	<!-- typeAliases : typeAlias 엘리먼트를 설정하기 위한 상위 엘리먼트 -->
+	<typeAliases>
+		<!-- typeAlias : 맵퍼에서 사용되는 Java 자료형의 별칭(AliasName)을 설정하기 위한 엘리먼트 - 대소문자 구분 -->
+		<!-- => 맵퍼에서 Java 자료형을 보다 쉽게 표현하기 위해 사용  -->
+		<!-- => mybatis 내부적으로 설정된 Java 자료형에 대한 별칭 존재 -->
+		<!-- type 속성 : Java 자료형을 속성값으로 설정 -->
+		<!-- alias 속성 : Java 자료형에 대한 별칭을 속성값으로 설정 -->
+		<!-- 
+		<typeAlias type="xyz.itwill.dto.Student" alias="Student"/>
+		<typeAlias type="xyz.itwill.dto.MyMember" alias="MyMember"/>
+		-->
+		 
+		<!-- package : 특정 패키지에 선언된 모든 클래스에 대한 별칭을 제공하는 엘리먼트 -->
+		<!-- => 패키지에 선언된 모든 클래스는 패키지를 제외한 클래스명이 별칭으로 자동 등록 -->
+		<!-- name 속성 : 별칭을 설정하고 하는 클래스가 선언된 패키지를 속성값으로 설정 -->
+		<package name="xyz.itwill.dto"/>
+	</typeAliases>
+
+	<!-- environments : environment 엘리먼트를 설정하기 위한 상위 엘리먼트 -->
+	<!-- default 속성 : mybatis 프레임워크에서 사용할 environment 엘리먼트의 식별자을 속성값으로 설정 -->
+	<environments default="development">
+		<!-- environment : DBMS 서버에 접속하기 위한 정보를 제공하기 위한 상위 엘리먼트 -->
+		<!-- => DBCP 인스턴스와 Connection 인스턴스를 생성하기 위한 정보 제공 -->
+		<!-- id 속성 : environment 엘리먼트를 구분하기 위한 식별자를 속성값으로 설정 -->
+		<environment id="development">
+			<!-- transactionManager : 트렌젝션 관리자를 설정하기 위한 엘리먼트 -->
+			<!-- 트렌젝션 관리자(TransactionManager) : 트렌젝션의 SQL 명령을 커밋하거나 롤백하기 위한 관리자 -->
+			<!-- type 속성 : [JDBC] 또는 [MANAGED] 중 하나를 속성값으로 설정 -->
+			<!-- => JDBC 속성값 : JDBC 기능을 사용하여 커밋과 롤백 처리 -->
+			<!-- => MANAGED 속성값 : 트렌젝션 관리자 프로그램을 사용하여 커밋과 롤백 처리 -->
+			<transactionManager type="JDBC"/>
+			<!-- dataSource : Connection 인스턴스를 생성하기 위한 정보를 설정하는 엘리먼트 -->
+			<!-- type 속성 : [UNPOOLED], [POOLED], [JNDI] 중 하나를 속성값으로 설정  -->
+			<!-- => UNPOOLED 속성값 : DBCP 기능을 사용하지 않고 Connection 인스턴스 제공 -->
+			<!-- => POOLED 속성값 : DBCP 기능을 사용하여 Connection 인스턴스 제공 -->
+			<!-- => JNDI  속성값 : JNDI 기능을 사용하여 Connection 인스턴스 제공 -->
+			<dataSource type="POOLED">
+				<!-- property : Connection 인스턴스를 생성하기 위한 값을 제공하기 위한 엘리먼트 -->
+				<!-- <property name="driver" value="oracle.jdbc.driver.OracleDriver"/> -->
+				<property name="driver" value="${oracleDriver}"/>
+				<!-- <property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/> -->
+				<property name="url" value="${localDB}"/>
+				<property name="username" value="scott"/>
+				<property name="password" value="tiger"/>
+			</dataSource>
+		</environment>
+	</environments>
+	
+	<!-- mappers : mapper 엘리먼트를 설정하기 위한 상위 엘리먼트 -->
+	<mappers>
+		<!-- mapper : SQL 명령이 등록된 맵퍼 파일을 설정하기 위한 엘리먼트 -->
+		<!-- => XML 기반의 맵퍼 파일과 Interface 기반의 맵퍼 파일 존재 -->
+		<!-- => ibatis에서는 XML 기반의 맵퍼 파일만 존재 -->
+		
+		<!-- resource 속성 : XML 기반의 맵퍼 파일의 경로를 속성값으로 설정 -->
+		<!-- => XML 파일의 경로는 파일 시스템 형식으로 표현 -->
+		<!-- XML 맵퍼의 장점 : 매핑 설정 기능과 동적 SQL 기능을 구현하기 편리 -->
+		<!-- XML 맵퍼의 단점 : SqlSession 인스턴스로 SQL 명령을 제공받아 사용하기 불편 -->
+		<mapper resource="xyz/itwill/mapper/StudentMapper.xml"/>
+		<mapper resource="xyz/itwill/mapper/MyMemberXMLMapper.xml"/>
+		
+		<!-- class 속성 : Interface 기반의 맵퍼 파일의 경로를 속성값으로 설정 -->
+		<!-- => Interface 파일의 경로는 Java 자료형으로 표현 -->
+		<!-- Interface 맵퍼의 장점 : SqlSession 인스턴스로 SQL 명령을 제공받아 사용하기 편리 -->
+		<!-- Interface 맵퍼의 단점 : 매핑 설정 기능과 동적 SQL 기능을 구현하기 불편 -->
+		<!-- <mapper class="xyz.itwill.mapper.MyMemberInterfaceMapper"/> -->
+		
+		<!-- XML 맵퍼 파일과 Interface 맵퍼 파일을 하나의 맵퍼로 동작되도록 설정하여 사용 -->
+		<!-- => SQL 명령은 XML 맵퍼에 등록하고 DAO 클래스는 Interface 맵퍼를 이용하여 작성 -->
+		<!-- mapper 엘리먼트에는 XML 맵퍼 파일만 등록하여 사용 -->
+		<!-- XML 맵퍼 파일과 Interface 맵퍼 파일을 하나의 맵퍼로 동작되도록 설정하는 방법 - 맵퍼 바인딩(Mapper Binding) -->
+		<!-- => XML 맵퍼에서 mapper 엘리먼트의 namespace 속성값과 같은 이름으로 Interface 맵퍼 파일을 작성 -->
+		<!-- => XML 맵퍼에서 SQL 명령이 등록된 엘리먼트와 Interface 맵퍼의 추상메소드가 동일한 형태로 작성 -->
+		<!-- <mapper resource="xyz/itwill/mapper/MyMemberMapper.xml"/> -->
+		
+		<!-- package : 특정 패키지에 작성된 모든 Interface 맵퍼 파일을 자동으로 맵퍼로 등록되도록 설정하는 엘리먼트 -->
+		<!-- name 속성 : 맵퍼로 등록될 Interface 맵퍼 파일의 패키지를 속성값으로 설정 -->
+		<package name="xyz.itwill.mapper"/>
+	</mappers>
+</configuration>

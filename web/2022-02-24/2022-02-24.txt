@@ -1,0 +1,10 @@
+sql session => getmapper / select / update / delete 
+
+
+XML 의 아이디와 interface 의 메소드명이 같아야하고,
+
+
+
+resultMap
+<id column  = "user_id" property ="userId">  => user_id 를 userId  로 바꿔주는것처럼 바꿔줌 => 보통 PK 같이 식별자에 사용
+<result ="user_name" property = "userName"> => 위에꺼랑 똑같음  

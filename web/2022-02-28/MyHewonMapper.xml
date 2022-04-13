@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.itwill.mapper.MyHewonMapper">
+	<insert id="insertHewon" parameterType="MyHewon">
+		insert into myhewon values(#{id},#{name},#{phone},#{email},#{state})
+	</insert>
+	
+	<resultMap type="MyHewon" id="myHewonResultMap">
+		<id column="hewon_id" property="id"/>
+		<result column="hewon_name" property="name"/>
+		<result column="hewon_phone" property="phone"/>
+		<result column="hewon_email" property="email"/>
+		<result column="hewon_state" property="state"/>
+	</resultMap>
+
+	<select id="selectHewonList" resultMap="myHewonResultMap">
+		select * from myhewon order by hewon_id
+	</select>
+	
+	<!-- discriminator : 검색행의 컬럼값을 비교하여 다른 매핑정보를 제공하기 위한 상위 엘리먼트 -->
+	<!-- => 하위 엘리먼트 : case 엘리먼트 -->
+	<!-- javaType 속성 : 비교 컬럼값이 대한 Java 자료형을 속성값으로 설정  -->
+	<!-- column 속성 : 비교 컬럼값이 저장된 컬럼명을 속성값으로 설정  -->
+	<!-- case : 검색행의 컬럼값을 비교하여 같은 경우 매핑정보를 제공하기 위한 엘리먼트 -->
+	<!-- value 속성 : 검색행의 컬럼값과 비교할 값을 속성값으로 설정 -->
+	<!-- 	
+	<resultMap type="MyHewon" id="myHewonDiscriminatorResultMap">
+		<discriminator javaType="int" column="hewon_state">
+			<case value="1">
+				<id column="hewon_id" property="id"/>
+				<result column="hewon_state" property="state"/>
+			</case>
+			<case value="2">
+				<id column="hewon_id" property="id"/>
+				<result column="hewon_name" property="name"/>
+				<result column="hewon_state" property="state"/>
+			</case>
+			<case value="3">
+				<id column="hewon_id" property="id"/>
+				<result column="hewon_name" property="name"/>
+				<result column="hewon_phone" property="phone"/>
+				<result column="hewon_state" property="state"/>
+			</case>
+			<case value="4">
+				<id column="hewon_id" property="id"/>
+				<result column="hewon_name" property="name"/>
+				<result column="hewon_phone" property="phone"/>
+				<result column="hewon_email" property="email"/>
+				<result column="hewon_state" property="state"/>
+			</case>
+		</discriminator>
+	</resultMap>
+	-->
+	
+	<!-- 공통적인 매핑정보는 discriminator 엘리먼트가 아닌 다른 엘리먼트를 이용하여 매핑 처리 -->
+	<!-- 
+	<resultMap type="MyHewon" id="myHewonDiscriminatorResultMap">
+		<id column="hewon_id" property="id"/>
+		<result column="hewon_state" property="state"/>
+		<discriminator javaType="int" column="hewon_state">
+			<case value="2">
+				<result column="hewon_name" property="name"/>
+			</case>
+			<case value="3">
+				<result column="hewon_name" property="name"/>
+				<result column="hewon_phone" property="phone"/>
+			</case>
+			<case value="4">
+				<result column="hewon_name" property="name"/>
+				<result column="hewon_phone" property="phone"/>
+				<result column="hewon_email" property="email"/>
+			</case>
+		</discriminator>
+	</resultMap>
+	-->
+	
+	<resultMap type="MyHewon" id="myHewonDiscriminatorResultMap">
+		<discriminator javaType="int" column="hewon_state">
+			<!-- resultMap 속성 : resultMap 엘리먼트를 구분하기 위한 식별자를 속성값으로 설정 -->
+			<!-- => resultMap 엘리먼트의 매핑정보를 제공받아 사용 -->
+			<case value="1" resultMap="myHewonOneResultMap"/>
+			<case value="2" resultMap="myHewonTwoResultMap"/>
+			<case value="3" resultMap="myHewonThreeResultMap"/>
+			<case value="4" resultMap="myHewonFourResultMap"/>
+		</discriminator>
+	</resultMap>	
+	
+	<resultMap type="MyHewon" id="myHewonOneResultMap">
+		<id column="hewon_id" property="id"/>
+		<result column="hewon_state" property="state"/>
+	</resultMap>
+	
+	<!-- extends 속성 : resultMap 엘리먼트를 구분하기 위한 식별자를 속성값으로 설정 -->
+	<!-- => resultMap 엘리먼트의 매핑정보를 상속받아 사용 -->
+	<resultMap type="MyHewon" id="myHewonTwoResultMap" extends="myHewonOneResultMap">
+		<result column="hewon_name" property="name"/>
+	</resultMap>
+	
+	<resultMap type="MyHewon" id="myHewonThreeResultMap" extends="myHewonTwoResultMap">
+		<result column="hewon_phone" property="phone"/>
+	</resultMap>
+	
+	<resultMap type="MyHewon" id="myHewonFourResultMap" extends="myHewonThreeResultMap">
+		<result column="hewon_email" property="email"/>
+	</resultMap>
+	
+	<select id="selectDiscriminatorHewonList" resultMap="myHewonDiscriminatorResultMap">
+		select * from myhewon order by hewon_id
+	</select>
+	
+	<!-- SQL 명령 작성에 필요한 값을 전달받는 방법 -->
+	<!-- => 전달값은 SQL 명령에서 #{변수명|필드명|맵키} 형식으로 표현 -->
+	<!-- 1.XML 맵퍼에서 SQL 명령이 등록된 엘리먼트의 parameterType 속성값으로 Java 자료형(별칭)을 설정하여 값을 전달받아 사용 -->
+	<!-- => parameterType 속성값으로 기본형(Wrapper) 또는 String 클래스 설정 - 단일값(변수명)  -->
+	<!-- => parameterType 속성값으로 DTO 클래스 설정 - 다수값(필드명)  -->
+	<!-- => parameterType 속성값으로 HashMap 클래스(Map 인터페이스) 설정 - 다수값(맵키)  -->
+	<!-- 2.Interface 맵퍼에서 추상메소드의 매개변수에 @Param 어노테이션을 설정하여 매개변수로 값을
+	전달받아 XML 맵퍼의 엘리먼트에 등록된 SQL 명령에서 전달값 사용 -->
+	<!-- => XML 맵퍼의 SQL 명령이 등록된 엘리먼트에서는 parameterType 속성 생략 -->
+	
+	<!-- 공개범위를 전달받아 MYHEWON 테이블에 저장된 해당 공개범위의 회원정보를 검색하여 결과를 제공하는 엘리먼트 -->
+	<!-- 하나의 값만 전달받아 SQL 명령에서 사용할 경우 parameterType 속성값으로 기본형(Wrapper) 또는 String 클래스로 
+	설정하고 SQL 명령에서는 전달값을 #{변수명} 형식으로 표현 - 변수명은 식별자 규칙에만 맞게 작성 -->
+	<!-- 
+	<select id="selectStateHewonList" parameterType="int" resultMap="myHewonResultMap">
+		select * from myhewon where hewon_state=#{state} order by hewon_id
+	</select>
+	 -->
+	 
+	<!-- parameterType 속성값이 기본형(Wrapper) 또는 String 클래스인 경우 parameterType 속성 생략 가능 -->
+	<!-- => Interface 맵퍼와 바인딩된 경우 전달값에 상관없이 parameterType 속성 생략 가능 --> 
+	<select id="selectStateHewonList" resultMap="myHewonResultMap">
+		select * from myhewon where hewon_state=#{state} order by hewon_id
+	</select> 
+	
+	<!-- 이름과 전화번호를 전달받아 MYHEWON 테이블에 저장된 해당 회원의 아이디를 검색하여 결과를 제공하는 엘리먼트 -->
+	<!-- 다수의 값을 전달받아 SQL 명령에서 사용할 경우 parameterType 속성값으로 DTO 클래스로 
+	설정하고 SQL 명령에서는 전달값을 #{필드명} 형식으로 표현 - DTO 인스턴스의 필드값을 제공받아 사용 -->
+	<select id="selectBeanHewonId" parameterType="MyHewon" resultType="string">
+		select hewon_id from myhewon where hewon_name=#{name} and hewon_phone=#{phone}
+	</select>
+	
+	<!-- 이름과 전화번호를 전달받아 MYHEWON 테이블에 저장된 해당 회원의 아이디를 검색하여 결과를 제공하는 엘리먼트 -->
+	<!-- 다수의 값을 전달받아 SQL 명령에서 사용할 경우 parameterType 속성값으로 HashMap 클래스(Map 인터페이스)로 
+	설정하고 SQL 명령에서는 전달값을 #{맵키} 형식으로 표현 - Map 인스턴스의 맵값을 제공받아 사용 -->
+	<select id="selectMapHewonId" parameterType="map" resultType="string">
+		select hewon_id from myhewon where hewon_name=#{name} and hewon_phone=#{phone}
+	</select>
+
+	<insert id="insertMapHewon" parameterType="map">
+		insert into myhewon values(#{id},#{name},#{phone},#{email},#{state})
+	</insert>
+	
+	<!-- select 엘리먼트의 resultType 속성값을 HashMap 클래스(Map 인터페이스)로 설정하면 검색행의
+	컬럼명은 맵키로 맵핑하고 컬럼값은 맵값으로 매핑하여 엔트리에 저장해 검색결과 제공 -->
+	<!-- => 검색행의 컬럼명은 대문자로 검색되므로 맵키를 표현할 경우 대문자로 표현 -->
+	<select id="selectMapHewonList" resultType="map">
+		select * from myhewon order by hewon_id
+	</select>
+	
+	<!-- 이름과 전화번호를 전달받아 MYHEWON 테이블에 저장된 해당 회원의 아이디를 검색하여 결과를 제공하는 엘리먼트 -->
+	<!-- Interface 맵퍼의 추상메소드 매개변수에 전달된 값을 @Param 어노테이션의 value 속성값을 
+	이용하여 XML 맵퍼의 SQL 명령에서 #{속성값}으로 표현 - parameterType 속성 생략 -->
+	<select id="selectParamHewonId" resultType="string">
+		select hewon_id from myhewon where hewon_name=#{name} and hewon_phone=#{phone}
+	</select>
+	
+	<!-- 검색 컬럼명과 검색 단어를 전달받아 MYHEWON 테이블에 저장된 회원정보 중 검색 컬럼에
+	검색 단어가 저장된 회원정보를 검색하여 검색결과를 제공하는 엘리먼트 -->
+	<!-- #{변수명|필드명|맵키} : '전달값' - 전달값이 SQL 명령에서 문자값으로 표현 -->
+	<!-- ${변수명|필드명|맵키} : 전달값 - 전달값을 SQL 문장(키워드 또는 식별자)으로 표현 -->
+	<!-- => ibatis에서는 $변수명|필드명|맵키$ 형식으로 표현 -->
+	<!-- => $ 표현식은 InSQL 공격에 취약하므로 사용하는 것을 비권장 -->
+	<!-- 
+	<select id="selectSearchHewonList" parameterType="map" resultMap="myHewonResultMap">
+		select * from myhewon where ${searchColumn}=#{searchKeyword} order by hewon_id
+	</select>
+	 -->
+	 
+	 <!-- 검색 컬럼명과 검색 단어를 전달받아 MYHEWON 테이블에 저장된 회원정보 중 검색 컬럼에
+	검색 단어가 포함된 회원정보를 검색하여 검색결과를 제공하는 엘리먼트 -->
+	<!-- 
+	<select id="selectSearchHewonList" parameterType="map" resultMap="myHewonResultMap">
+		select * from myhewon where ${searchColumn} like '%'||#{searchKeyword}||'%' order by hewon_id
+	</select>
+	-->
+	
+	<select id="selectSearchHewonList" parameterType="map" resultMap="myHewonResultMap">
+		<!-- bind : SQL 명령에서 사용할 수 있는 이름과 값을 설정하기 위한 엘리먼트 - 전달값 변경 -->
+		<!-- name 속성 : SQL 명령에서 사용할 값을 구분하기 위한 식별자를 속성값으로 설정 -->
+		<!-- value 속성 : SQL 명령에서 사용할 값을 속성값으로 설정 -->
+		<!-- => value 속성값으로 전달값을 사용할 수 있으며 문자값 결합 기능(+ 연산자) 제공 -->
+		<bind name="keyword" value="'%'+searchKeyword+'%'"/>
+		select * from myhewon where ${searchColumn} like #{keyword} order by hewon_id
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
