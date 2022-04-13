@@ -1,0 +1,19 @@
+object.getClass = > 객체에 대한 클래스 정보(Clazz) 반환
+Class .getName => Class 객체(Clazz) 의 클래스명(패키지 포함)을 반환하는 메소드
+
+DATASOURCE => SPring 과 APACHE 것이 있다.
+
+Spring DAO 
+
+insert  =>jdbcTemplate.update 메소드
+update  => jdbcTemplate.update 메소드
+delete = > jdbcTemplate.update 메소드
+selectone  => jdbcTemplate.queryforObject 메소드 (단일행 검색) 
+selectall => 
+
+Spring MVC
+
+
+아이디 찾기 = > 인즈 이메일 보내기
+
+프론트 컨트롤러 2개  웹사이트 컨트롤러 1 / rest 제공해주는 컨트롤러 1  

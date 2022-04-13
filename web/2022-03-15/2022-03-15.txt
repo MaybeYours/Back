@@ -1,0 +1,5 @@
+DAO
+
+root-context.xml -> 모든 
+
+void 로 작성하면 , viewname 에 메소드명이 전달된다.
