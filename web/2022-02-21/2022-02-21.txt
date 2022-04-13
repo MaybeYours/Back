@@ -1,0 +1,20 @@
+JSTL
+
+Custom 태그 중에서 많이 사용되는 태그를 모와서 만든 태그 라이브러리
+
+JSTL 구성 라이브러리
+
+-Core
+   변수 선언 / 제어문 / JSP 페이지 이동 등
+-Formatting
+   국제화 , 다국어 지원 , 숫자 , 시간 날짜 변환
+-DataBase
+ -DAO 가 함
+-XML
+ - parsing
+- Function 
+ - 문자열을 처리하는 함수 제공
+
+
+태그 라이브러리 빌드 >>
+

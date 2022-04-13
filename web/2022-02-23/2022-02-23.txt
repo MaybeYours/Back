@@ -1,0 +1,7 @@
+2022-02-23
+
+
+
+MYBATIS
+DAO 에 이제 SQL 명령을 쓰지 않는다.
+SQL명령이 들어간 mapper => mybatis => DAO
