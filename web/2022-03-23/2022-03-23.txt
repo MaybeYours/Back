@@ -1,0 +1,3 @@
+Controller 에서 ResponseBody를 쓰면 JSON 형식으로 반환해준다.
+
+POST 방식 => 전 페이지에서 AJAX 로 요청도 가능
