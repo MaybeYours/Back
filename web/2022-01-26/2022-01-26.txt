@@ -1,0 +1,5 @@
+<td><%=DecimalFormat.getInstance().format(product.getQty()) %></td> 
+	(,) 가 붙는 인스턴스	
+
+<td><%=DecimalFormat.getCurrencyInstance().format(product.getPrice()) %></td>
+	--화폐단위, (,) 가 붙는 인스턴스

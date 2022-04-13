@@ -1,0 +1,30 @@
+2022-02-11
+
+AJAX - 비동기식 통신 프로그래밍
+
+웹프로그램이 요청하는 동안 아무것도 하지 못하는 동기식 프로그래밍에서 , 웹프로그래밍이 요청하는 동안 다른 작업을 할 수 있는 비동기식 프로그래밍으로 바뀌었다.
+페이지 새로고침을 하지 않고 , 공백기간동안 다른 작업도 할 수 있게 만들어주었다.
+페이지를 새로 고치지 않고 요청결과를 XML 로 받아서 , DB까지 가지 않고 XML 에서만 왔다갔다
+
+AJAX <> XML <> DB
+
+XMLHttpRequest  - 비동기식으로 요청해준다. XM을
+
+getXMLHttpRequest() : 준비상태 =0
+
+onreadystatechane=changHTML = changHTML 함수가 총 4번호출 (0-1 , 1-2 ,2-3, 3-4)
+
+xhr.open("GET","hello_two.jsp",true)   => GET 방식으로 hello_two.jsp 를 동기식으로 보내라.
+
+xhr.send(null); => 쿼리스트링같이 이름=값&이름=값 식으로 보낼 수 있다.(POST 방식일때만)
+		GET 방식일 경우 Null 전달 => 자동으로 3-4로 넘어간다.
+
+xhr.readyState = > 지금 현재 상태를 나타내준다 1~4
+ if(xhr.readyStat = 4) => 응답을 받았을떄
+ if(xhr.status==200) => 정상적으로 값을 받았을 때
+
+XML 은 전달속도가 느리고 PARSING 이 어렵지만 대용량
+JSON 은 전달속도가 빠르고 PARSING 이 쉽지만 소용량 ( PARSING 이 쉽다)
+
+xml이뭔지 , Json이 뭔지 // parsing 하는 법 잘 알아두기.
+해석해서 , 원하는 방식으로 출력할 수 있도록 해보기!
