@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<!-- root-context.xml : 모든 Front Controller에서 사용할 수 있는 Spring Bean을 등록하기 위한
+	Bean Configuration File -->	
+	<!-- => DAO 클래스 작성에 필요한 클래스를 Spring Bean으로 등록 -->
+	<!-- => DataSource, SqlSessionFactory, SqlSession, TransactionManager 등 -->
+	
+	<!-- DataSource 관련 클래스를 Spring Bean으로 등록 -->
+	<!-- => Connection 객체를 생성하기 위한 값을 필드에 인젝션 처리 -->
+	<bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" id="dataSource">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+		<property name="username" value="scott"/>
+		<property name="password" value="tiger"/>
+	</bean>
+	
+	<!-- SqlSessionFactory 관련 클래스를 Spring Bean으로 등록 -->
+	<bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactoryBean">
+		<!-- configLocation 필드에는 Mybatis 환경설정파일의 경로를 인젝션 처리 -->
+		<!-- SpringMVC에서 사용하는 Spring Container(WebApplicationContext 객체)는
+		[src/main/webapp] 폴더(/)의 자원만 접근 가능 -->
+		<!-- [src/main/java] 또는 [src/main/resources] 폴더에 작성된 자원에 접근하기 위해서는
+		claspath 접두사를 사용하여 자원의 경로 표현 -->
+		<!-- <property name="configLocation" value="/WEB-INF/spring/mybatis-config.xml"/> -->
+		<!-- 패키지에 자원이 작성된 경우 파일 시스템 경로로 표현하여 접근 가능 -->
+		<!-- <property name="configLocation" value="classpath:xyz/itwill10/xml/mybatis-config.xml"/> -->
+		<property name="configLocation" value="classpath:mybatis-config.xml"/>
+		
+		<!-- dataSource 필드에는 DataSource 관련 Spring Bean를 인젝션 처리 -->
+		<!-- => Mybatis 환경설정파일의 environments 엘리먼트 생략 -->
+		<property name="dataSource" ref="dataSource"/>
+		
+		<!-- typeAliasesPackage 필드에는 DTO 클래스를 작성하는 패키지를 인젝션 처리 -->
+		<!-- => Mybatis 환경설정파일의 typeAliaes 엘리먼트 생략 -->
+		<property name="typeAliasesPackage" value="xyz.itwill10.dto"/>
+		
+		<!-- mapperLocations 필드에는 XML 맵퍼 파일을 List 객체의 요소로 추가하여 인젝션 처리 -->
+		<!-- => * 패턴문자를 이용하여 다수의 XML 파일을 맵퍼 파일로 등록 가능 -->
+		<!-- => Mybatis 환경설정파일의 mappers 엘리먼트 생략 -->
+		<property name="mapperLocations">
+			<list>
+				<value>classpath:xyz/itwill10/mapper/*.xml</value>
+			</list>
+		</property>	
+	</bean>
+	
+	<!-- SqlSession 관련 클래스를 Spring Bean으로 등록 -->
+	<!-- => destroy-method 속성에 clearCache 메소드를 속성값으로 설정 -->
+	<!-- clearCache 메소드 : SqlSesion 관련 객체를 소멸시키는 메소드 -->
+	<bean class="org.mybatis.spring.SqlSessionTemplate" id="sqlSession" destroy-method="clearCache">
+		<!-- 생성자를 이용하여 SqlSessionFactory 관련 클래스의 Spring Bean를 인젝션 처리  -->
+		<constructor-arg ref="sqlSessionFactoryBean"/>
+	</bean>
+	
+	<!-- TransactionManager 관련 클래스를 Spring Bean으로 등록 -->
+	<!-- => beanName은 반드시 [transactionManager]로 설정 -->
+	<bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="transactionManager">
+		<!-- dataSource 필드에는 DataSource 관련 Spring Bean를 인젝션 처리 -->
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+</beans>
+
+
+
+
+
+
+
+
+
+
+
+
+
