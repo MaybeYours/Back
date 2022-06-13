@@ -8,7 +8,7 @@ public class RamenProgram {
 			new Thread(ramenCook,"A").start();
 			new Thread(ramenCook,"B").start();
 			new Thread(ramenCook,"C").start();
-			new Thread(ramenCook,"D").start();
+			new Thread(ramenCook,"D").start() ;
 		
 			
 		} catch(Exception e) {
